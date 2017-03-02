@@ -32,7 +32,7 @@ proc sendFile {filename} {
 	set fp [open $filename r]
 	while {[eof $fp] == 0} {
 		expect [format %08X $addr] {
-			send [format %02X [read $fp 1]]
+			send [format %02X [scan [read $fp 1] %c]]
 			send "\r"
 		}
 	}
