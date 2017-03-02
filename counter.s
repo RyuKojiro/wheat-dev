@@ -1,4 +1,4 @@
-.org 0x08000000
+.text
 
 main:
 	mov #0, r0               ; Reset r0 (counter)
