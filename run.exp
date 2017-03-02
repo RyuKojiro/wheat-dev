@@ -25,12 +25,13 @@ proc ledDisplayPrint {string} {
 
 proc sendFile {filename} {
 	set addr 0x8000000
+	set len [file size $filename]
 	expect ">" {
 		send "m 08000000\r";
 	}
 
 	set fp [open $filename r]
-	while {[eof $fp] == 0} {
+	while {$addr < $len} {
 		expect [format %08X $addr] {
 			send [format %02X [scan [read $fp 1] %c]]
 			send "\r"
