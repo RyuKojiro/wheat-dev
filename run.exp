@@ -23,6 +23,21 @@ proc ledDisplayPrint {string} {
 	}
 }
 
+proc sendFile {filename} {
+	set addr 0x8000000
+	expect ">" {
+		send "m 08000000\r";
+	}
+
+	set fp [open $filename r]
+	while {[eof $fp] == 0} {
+		expect [format %08X $addr] {
+			send [format %02X [read $fp 1]]
+			send "\r"
+		}
+	}
+}
+
 send_user "Waiting for remote side…\n"
 send "\r"
 
@@ -30,5 +45,6 @@ send_user "Disabling LED display…\n"
 ledDisplayPrint "        "
 
 send_user "Sending $file…\n"
+sendFile $file
 
 #interact
