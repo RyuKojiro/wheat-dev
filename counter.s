@@ -1,7 +1,7 @@
 .org 0x08000000
 
 main:
-	mov.l #0, r0
+	mov #0, r0               ; Reset r0 (counter)
 loop:
 	bsr displayEntireNumber    ; Display the number
 	nop                        ; Branch Delay Slot
