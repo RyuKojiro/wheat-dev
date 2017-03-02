@@ -36,6 +36,8 @@ proc sendFile {filename} {
 			send "\r"
 		}
 	}
+	close $fp
+	send ".\r"
 }
 
 send_user "Waiting for remote side…\n"
