@@ -1,4 +1,4 @@
-.org 0x08000000
+.text
 
 main:
 	mov.l ledStorage, r0
