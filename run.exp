@@ -35,6 +35,7 @@ proc sendFile {filename} {
 			send [format %02X [scan [read $fp 1] %c]]
 			send "\r"
 		}
+		incr addr
 	}
 	close $fp
 	send ".\r"
