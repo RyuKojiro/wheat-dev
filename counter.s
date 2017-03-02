@@ -13,9 +13,10 @@ loop:
 displayEntireNumber:
 	mov.l r1, @-r15            ; Push r1 onto the stack
 
+	mov #7, r2                 ; r2 will be our upper limit
 displayDigit:
 	
-	cmp/gt r1, 7               ; Are we done with the 8th digit yet?
+	cmp/gt r1, r2               ; Are we done with the 8th digit yet?
 	bt displayDigit            ; If not, go to the next digit
 	add #1, r1                 ; Delayed Branch - Increment the digit count
 
