@@ -2,12 +2,10 @@
 
 main:
 	mov.l ledStorage, r0
-	mov.b letterX, @r0
+	mov #'x', r1
+	mov.b r1, @r0
 	rts
 	nop
 
 ledStorage:
 .long 0xBA202070
-
-letterX:
-.byte 'x'
