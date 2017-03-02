@@ -4,4 +4,4 @@ SRC=		test.s
 BIN=		counter.o
 
 $(BIN): $(SRC)
-	$(AS) $(ASFLAGS) $(SRC)
+	$(AS) $(ASFLAGS) -o $(BIN) $(SRC)
