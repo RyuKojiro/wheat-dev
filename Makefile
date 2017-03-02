@@ -6,8 +6,14 @@ SRC=		test.s
 OBJ=		counter.o
 BIN=		counter.bin
 
+run: $(BIN)
+	expect run.exp $(BIN)
+
 $(BIN): $(OBJ)
 	$(OBJCOPY) -O binary $(OBJ) $(BIN)
 
 $(OBJ): $(SRC)
 	$(AS) $(ASFLAGS) -o $(OBJ) $(SRC)
+
+.PHONY: run
+.POSIX:
