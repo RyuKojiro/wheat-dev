@@ -1,6 +1,13 @@
 .org 0x08000000
 
 main:
-	mov #0, r0
+	mov.l ledStorage, r0
+	mov.b letterX, @r0
 	rts
 	nop
+
+ledStorage:
+.long 0xBA202070
+
+letterX:
+.byte 'x'
