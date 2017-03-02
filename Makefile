@@ -15,5 +15,8 @@ $(BIN): $(OBJ)
 $(OBJ): $(SRC)
 	$(AS) $(ASFLAGS) -o $(OBJ) $(SRC)
 
-.PHONY: run
+clean:
+	rm -f $(OBJ) $(BIN)
+
+.PHONY: run clean
 .POSIX:
