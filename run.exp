@@ -51,4 +51,9 @@ ledDisplayPrint "        "
 send_user "Sending $file…\n"
 sendFile $file
 
+send_user "Running program…\n"
+expect ">" {
+	send "g 08000000\r"
+}
+
 #interact
