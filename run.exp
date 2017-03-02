@@ -1,0 +1,34 @@
+#!/usr/bin/expect
+
+log_user 0
+
+set port /dev/tty.usbserial-AL020VX7
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set file [lindex $argv 0]
+
+proc ledDisplayPrint {string} {
+	expect ">" {
+		send "m BA202070\r";
+	}
+
+	expect "BA202070" {
+		for {set i 0} {$i < 8} {incr i} {
+			sleep .01
+			send [format %4.4X [scan [string index $string $i] %c]]
+			send "\rFF\r"
+		}
+		send ".\r"
+	}
+}
+
+send_user "Waiting for remote side…\n"
+send "\r"
+
+send_user "Disabling LED display…\n"
+ledDisplayPrint "        "
+
+send_user "Sending $file…\n"
+
+#interact
