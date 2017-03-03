@@ -15,7 +15,7 @@ displayEntireNumber:
 		! r3 = digit address in memory
 		! r4 = the character to print
 		! r5 = temporary relative
-
+	mov #0, r1                 ! r1 will be our digit iterator
 	mov #7, r2                 ! r2 will be our upper limit
 displayDigit:
 	mov.l ledDataOffset, r5    ! Get the address to the offset
