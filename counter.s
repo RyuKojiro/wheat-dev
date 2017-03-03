@@ -1,6 +1,7 @@
 .text
 
 main:
+		! r0 = the entire number to print
 	mov #0, r0                 ! Reset r0 (counter)
 loop:
 	bsr displayEntireNumber    ! Display the number
