@@ -18,8 +18,7 @@ displayEntireNumber:
 	mov #0, r1                 ! r1 will be our digit iterator
 	mov #7, r2                 ! r2 will be our upper limit
 displayDigit:
-	mov.l ledDataOffset, r5    ! Get the address to the offset
-	mov.l @r5, r3              ! Set r3 to the offset
+	mov.l @(ledDataOffset,pc), r3    ! Get the address to the offset
 	shll r1                    ! r1 *= 2
 	add r1, r3                 ! Add the digit number (*2) to the offset
 	shlr r1                    ! r1 /= 2
