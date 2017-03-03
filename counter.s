@@ -25,7 +25,7 @@ displayDigit:
 	shlr r1                          ! r1 /= 2
 	bsr getCurrentDigit              ! Calculate the character for the digit
 	mov.b r4, @r3                    ! Write character to display digit
-	cmp/gt r1, r2                    ! Are we done with the 8th digit yet?
+	cmp/hi r1, r2                    ! Are we done with the 8th digit yet?
 	add #1, r1                       ! Increment the digit count
 	bt displayDigit                  !   If not, go to the next digit
 	rts
