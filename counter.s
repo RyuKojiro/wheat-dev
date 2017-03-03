@@ -5,7 +5,7 @@ main:
 loop:
 	bsr displayEntireNumber    ! Display the number
 	nop                        ! Branch Delay Slot
-	bra loop                    ! Repeat Unconditionally
+	bra loop                   ! Repeat Unconditionally
 	add #1, r0                 ! Increment the number
 
 displayEntireNumber:
