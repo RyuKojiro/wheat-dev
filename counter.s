@@ -5,10 +5,8 @@ main:
 loop:
 	bsr displayEntireNumber    ! Display the number
 	nop                        ! Branch Delay Slot
+	bra loop                    ! Repeat Unconditionally
 	add #1, r0                 ! Increment the number
-	mov.l loop, r1             ! Load r1 for jump
-	jmp @r1                    ! Repeat
-	nop                        ! Branch Delay Slot
 
 displayEntireNumber:
 	mov.l r1, @-r15            ! Push r1 onto the stack
