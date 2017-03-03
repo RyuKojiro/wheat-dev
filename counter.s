@@ -23,7 +23,7 @@ displayDigit:
 	shll r1                          ! r1 *= 2
 	add r1, r3                       ! Add the digit number (*2) to the offset
 	shlr r1                          ! r1 /= 2
-	mov #'[', r4                     ! Calculate the character for the digit
+	bsr getCurrentDigit              ! Calculate the character for the digit
 	mov.b r4, @r3                    ! Write character to display digit
 	cmp/gt r1, r2                    ! Are we done with the 8th digit yet?
 	add #1, r1                       ! Increment the digit count
@@ -35,13 +35,32 @@ displayDigit:
 getCurrentDigit:
 		! r0 = the entire number to print
 		! r1 = digit iterator
+		! r7 = shift iterator
 		! r6 = the current nibble
 		! r4 = the character to print
+		! r8 = hex alpha limit
 
-	; Put the number into the nibble register
-	; Shift over to the nibble we want
-	; Mask away the rest
-	; Normalize to a character
+	mov #0, r7                 ! Reset the shift iterator
+	mov r0, r6                 ! Put the number into the nibble register
+	cmp/hi r7, r1              ! Is there more to shift?
+	bf doneShifting            !   If not, bail
+	shlr2 r6                   ! Shift over to the nibble we want
+	shlr2 r6
+doneShifting:
+	mov #0xF, r8               ! Load up 0xF constant for masking
+	and r8, r6                 ! Mask away anything higher than the nibble we care about
+	mov #0xA, r8               ! Move 0xA constant into place for comparison
+	cmp/hs r8, r6              ! Is r6 ≥ 0xA?
+    bt itsAlpha                !   If so, it's alpha, go there
+	add #'0', r6               ! Normalize to a numeric character
+	bf digitDone
+
+itsAlpha:
+	add #'A' - 0xA, r6         ! Normalize to an alpha character
+digitDone:
+	mov r6, r4
+	rts
+	nop
 
 .align 2
 ledDataOffset:
