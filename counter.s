@@ -44,8 +44,12 @@ getCurrentDigit:
 	mov r0, r6                 ! Put the number into the nibble register
 	cmp/hi r7, r1              ! Is there more to shift?
 	bf doneShifting            !   If not, bail
+shift:
 	shlr2 r6                   ! Shift over to the nibble we want
 	shlr2 r6
+	add #1, r7
+	cmp/hi r7, r1              ! Is there more to shift?
+	bt shift                   !   If so, repeat
 doneShifting:
 	mov #0xF, r8               ! Load up 0xF constant for masking
 	and r8, r6                 ! Mask away anything higher than the nibble we care about
