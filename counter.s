@@ -25,9 +25,8 @@ displayDigit:
 	mov #'[', r4               ! Calculate the character for the digit
 	mov.b r4, @r3              ! Write character to display digit
 	cmp/gt r1, r2              ! Are we done with the 8th digit yet?
-	bt displayDigit            ! If not, go to the next digit
 	add #1, r1                 ! Delayed Branch - Increment the digit count
-
+	bt displayDigit            ! If not, go to the next digit
 	rts
 	nop
 
