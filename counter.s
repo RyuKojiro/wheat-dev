@@ -10,7 +10,7 @@ loop:
 
 displayEntireNumber:
 		! r0 = the entire number to print
-		! r1 = digit number
+		! r1 = digit iterator
 		! r2 = digit max constant
 		! r3 = digit address in memory
 		! r4 = the character to print
