@@ -9,7 +9,11 @@ loop:
 	add #1, r0                 ! Increment the number
 
 displayEntireNumber:
-	mov.l r1, @-r15            ! Push r1 onto the stack
+		! r0 = the entire number to print
+		! r1 = digit number
+		! r2 = digit max constant
+		! r3 = digit address in memory
+		! r4 = the character to print
 
 	mov #7, r2                 ! r2 will be our upper limit
 displayDigit:
@@ -18,6 +22,5 @@ displayDigit:
 	bt displayDigit            ! If not, go to the next digit
 	add #1, r1                 ! Delayed Branch - Increment the digit count
 
-	mov.l @r15+, r1            ! Pop the stack
 	rts
 	nop
