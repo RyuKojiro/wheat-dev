@@ -24,7 +24,8 @@ proc ledDisplayPrint {string} {
 }
 
 proc sendFile {filename} {
-	set addr 0x8000000
+	set offset 0x08000000
+	set addr 0
 	set len [file size $filename]
 	expect ">" {
 		send "m 08000000\r";
@@ -32,14 +33,18 @@ proc sendFile {filename} {
 
 	set fp [open $filename r]
 	while {$addr < $len} {
-		expect [format %08X $addr] {
+		expect [format %08X [expr $addr + $offset]] {
 			send [format %02X [scan [read $fp 1] %c]]
 			send "\r"
 		}
 		incr addr
+
+		set percent [expr 100 * $addr / $len]
+		send_user "$addr/$len bytes - $percent%\r"
 	}
 	close $fp
 	send ".\r"
+	send_user "\n"
 }
 
 send_user "Waiting for remote side…\n"
