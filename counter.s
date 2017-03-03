@@ -17,7 +17,9 @@ displayEntireNumber:
 
 	mov #7, r2                 ! r2 will be our upper limit
 displayDigit:
-	
+	mov r1, r3                 ! Put the target digit location in r3
+	shll r3                    ! r3 *= 2
+
 	cmp/gt r1, r2              ! Are we done with the 8th digit yet?
 	bt displayDigit            ! If not, go to the next digit
 	add #1, r1                 ! Delayed Branch - Increment the digit count
