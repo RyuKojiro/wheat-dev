@@ -31,6 +31,18 @@ displayDigit:
 	rts
 	nop
 
+
+getCurrentDigit:
+		! r0 = the entire number to print
+		! r1 = digit iterator
+		! r6 = the current nibble
+		! r4 = the character to print
+
+	; Put the number into the nibble register
+	; Shift over to the nibble we want
+	; Mask away the rest
+	; Normalize to a character
+
 .align 2
 ledDataOffset:
 .long 0xBA202070
