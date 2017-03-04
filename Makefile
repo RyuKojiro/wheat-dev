@@ -4,6 +4,9 @@ CC=			$(TOOLDIR)/bin/shle--netbsdelf-gcc
 OBJCOPY=	$(TOOLDIR)/bin/shle--netbsdelf-objcopy
 ASFLAGS=	--little --isa=sh4a
 
+simple: simple.bin
+	expect run.exp $<
+
 counter: counter.bin
 	expect run.exp $<
 
