@@ -9,14 +9,15 @@ BIN=		counter.bin
 run: $(BIN)
 	expect run.exp $(BIN)
 
-$(BIN): $(OBJ)
-	$(OBJCOPY) -O binary $(OBJ) $(BIN)
+.o.bin:
+	$(OBJCOPY) -O binary $< $@
 
-$(OBJ): $(SRC)
-	$(AS) $(ASFLAGS) -o $(OBJ) $(SRC)
+.s.o:
+	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
 	rm -f $(OBJ) $(BIN)
 
+.SUFFIXES: .o .s .bin
 .PHONY: run clean
 .POSIX:
