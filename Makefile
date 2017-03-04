@@ -11,7 +11,7 @@ ccounter: ccounter.bin
 	expect run.exp $<
 
 .o.bin:
-	$(OBJCOPY) -O binary $< $@
+	$(OBJCOPY) -O binary --only-section=.text $< $@
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<
