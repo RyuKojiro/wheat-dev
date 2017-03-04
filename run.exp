@@ -32,6 +32,7 @@ proc sendFile {filename} {
 	}
 
 	set fp [open $filename r]
+	chan configure $fp -translation binary
 	while {$addr < $len} {
 		expect [format %08X [expr $addr + $offset]] {
 			send [format %02X [scan [read $fp 1] %c]]
