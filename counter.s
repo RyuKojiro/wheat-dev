@@ -16,18 +16,18 @@ displayEntireNumber:
 		! r3 = digit address in memory
 		! r4 = the character to print
 		! r5 = temporary relative
-	mov #0, r1                       ! r1 will be our digit iterator
-	mov #7, r2                       ! r2 will be our upper limit
+	mov #0, r1                 ! r1 will be our digit iterator
+	mov #7, r2                 ! r2 will be our upper limit
 displayDigit:
-	mov.l @(ledDataOffset,pc), r3    ! Get the address to the offset
-	shll r1                          ! r1 *= 2
-	add r1, r3                       ! Add the digit number (*2) to the offset
-	shlr r1                          ! r1 /= 2
-	bsr getCurrentDigit              ! Calculate the character for the digit
-	mov.b r4, @r3                    ! Write character to display digit
-	cmp/hi r1, r2                    ! Are we done with the 8th digit yet?
-	add #1, r1                       ! Increment the digit count
-	bt displayDigit                  !   If not, go to the next digit
+	mov.l ledDataOffset, r3    ! Get the address to the offset
+	shll r1                    ! r1 *= 2
+	add r1, r3                 ! Add the digit number (*2) to the offset
+	shlr r1                    ! r1 /= 2
+	bsr getCurrentDigit        ! Calculate the character for the digit
+	mov.b r4, @r3              ! Write character to display digit
+	cmp/hi r1, r2              ! Are we done with the 8th digit yet?
+	add #1, r1                 ! Increment the digit count
+	bt displayDigit            !   If not, go to the next digit
 	rts
 	nop
 
