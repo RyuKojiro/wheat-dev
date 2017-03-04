@@ -31,6 +31,9 @@ displayDigit:
 	rts
 	nop
 
+.align 2
+ledDataOffset:
+.long 0xBA202070
 
 getCurrentDigit:
 		! r0 = the entire number to print
@@ -65,7 +68,3 @@ digitDone:
 	mov r6, r4
 	rts
 	nop
-
-.align 2
-ledDataOffset:
-.long 0xBA202070
