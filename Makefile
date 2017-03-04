@@ -16,7 +16,7 @@ run: $(BIN)
 	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
-	rm -f $(OBJ) $(BIN)
+	rm -f *.bin *.o
 
 .SUFFIXES: .o .s .bin
 .PHONY: run clean
