@@ -17,9 +17,6 @@ ccounter: ccounter.bin
 .o.bin:
 	$(OBJCOPY) $(OCFLAGS) $< $@
 
-.s.o:
-	$(AS) $(ASFLAGS) -o $@ $<
-
 clean:
 	rm -f *.bin *.o
 
