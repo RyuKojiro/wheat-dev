@@ -16,14 +16,16 @@ displayEntireNumber:
 		! r3 = digit address in memory
 		! r4 = the character to print
 		! r5 = temporary relative
+		! r9 = temporary digit math
 	sts.l pr, @-r15
 	mov #0, r1                 ! r1 will be our digit iterator
 	mov #7, r2                 ! r2 will be our upper limit
 displayDigit:
 	mov.l ledDataOffset, r3    ! Get the address to the offset
-	shll r1                    ! r1 *= 2
-	add r1, r3                 ! Add the digit number (*2) to the offset
-	shlr r1                    ! r1 /= 2
+	mov #7, r9                 ! r9 = 7
+	sub r1, r9                 ! r9 -= r1
+	shll r9                    ! r9 *= 2
+	add r9, r3                 ! Add the digit number (*2) to the offset
 	bsr getCurrentDigit        ! Calculate the character for the digit
 	nop
 	mov.b r4, @r3              ! Write character to display digit
