@@ -27,6 +27,7 @@ proc sendFile {filename} {
 	set offset 0x08000000
 	set addr 0
 	set len [file size $filename]
+	set start [clock milliseconds]
 	expect ">" {
 		send "m 08000000\r";
 	}
@@ -40,8 +41,10 @@ proc sendFile {filename} {
 		}
 		incr addr
 
+		set now [clock milliseconds]
 		set percent [expr 100 * $addr / $len]
-		send_user "$addr/$len bytes - $percent%\r"
+		set rate [format %.2f [expr $addr / (($now - $start) / 1000.0)]]
+		send_user "$addr/$len bytes - $rate bytes/sec - $percent%\r"
 	}
 	close $fp
 	send ".\r"
