@@ -27,7 +27,7 @@ displayDigit:
 	nop
 	mov.b r4, @r3              ! Write character to display digit
 	add #1, r1                 ! Increment the digit count
-	cmp/hi r1, r2              ! Are we done with the 8th digit yet?
+	cmp/hs r1, r2              ! Are we done with the 8th digit yet?
 	bt displayDigit            !   If not, go to the next digit
 	rts
 	nop
