@@ -1,9 +1,9 @@
-TOOLDIR=	../NetBSD/src/obj/tooldir.Darwin-16.3.0-x86_64
-AS=			$(TOOLDIR)/bin/shle--netbsdelf-as
-CC=			$(TOOLDIR)/bin/shle--netbsdelf-gcc
-OBJCOPY=	$(TOOLDIR)/bin/shle--netbsdelf-objcopy
-ASFLAGS=	--little --isa=sh4a
-OCFLAGS=	-O binary --only-section=.text
+TOOLDIR= ../NetBSD/src/obj/tooldir.Darwin-16.3.0-x86_64
+AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
+CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
+OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
+ASFLAGS= --little --isa=sh4a
+OCFLAGS= -O binary --only-section=.text
 
 simple: simple.bin
 	expect run.exp $<
