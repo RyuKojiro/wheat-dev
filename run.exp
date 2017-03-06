@@ -50,10 +50,11 @@ proc sendFile {filename} {
 
 send_user "Waiting for remote side…\n"
 send "\r"
-ledDisplayPrint "        "
 
+ledDisplayPrint "Loading "
 send_user "Sending $file…\n"
 sendFile $file
+ledDisplayPrint "        "
 
 send_user "Running program…\n"
 expect ">" {
