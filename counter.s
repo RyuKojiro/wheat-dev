@@ -24,6 +24,7 @@ displayDigit:
 	add r1, r3                 ! Add the digit number (*2) to the offset
 	shlr r1                    ! r1 /= 2
 	bsr getCurrentDigit        ! Calculate the character for the digit
+	nop
 	mov.b r4, @r3              ! Write character to display digit
 	add #1, r1                 ! Increment the digit count
 	cmp/hi r1, r2              ! Are we done with the 8th digit yet?
