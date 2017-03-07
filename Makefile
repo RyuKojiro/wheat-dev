@@ -20,6 +20,6 @@ ccounter: ccounter.bin
 clean:
 	rm -f *.bin *.o
 
-.SUFFIXES: .o .s .bin
-.PHONY: run clean
+.SUFFIXES: .o .bin
+.PHONY: clean
 .POSIX:
