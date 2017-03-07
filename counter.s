@@ -5,9 +5,9 @@ main:
 	mov #0, r0                 ! Reset r0 (counter)
 loop:
 	bsr displayEntireNumber    ! Display the number
-	nop                        ! Branch Delay Slot
+	nop                        ! Empty Branch Delay Slot
 	bra loop                   ! Repeat Unconditionally
-	add #1, r0                 ! Increment the number
+	add #1, r0                 ! ⤷ Increment the number
 
 displayEntireNumber:
 		! r0 = the entire number to print
@@ -25,9 +25,8 @@ displayDigit:
 	mov #7, r9                 ! r9 = 7
 	sub r1, r9                 ! r9 -= r1
 	shll r9                    ! r9 *= 2
-	add r9, r3                 ! Add the digit number (*2) to the offset
 	bsr getCurrentDigit        ! Calculate the character for the digit
-	nop
+	add r9, r3                 ! ⤷ Add the digit number (*2) to the offset
 	mov.b r4, @r3              ! Write character to display digit
 	add #1, r1                 ! Increment the digit count
 	cmp/hs r1, r2              ! Are we done with the 8th digit yet?
@@ -70,7 +69,6 @@ doneShifting:
 itsAlpha:
 	add #'A' - 0xA, r6         ! Normalize to an alpha character
 digitDone:
-	mov r6, r4
 	lds.l @r15+, pr
 	rts
-	nop
+	mov r6, r4                 ! ⤷ Transfer the result
