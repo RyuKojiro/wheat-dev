@@ -1,16 +1,16 @@
 .text
 
 main:
-		! r0 = the entire number to print
-	mov #0, r0                 ! Reset r0 (counter)
+		! r10 = the entire number to print
+	mov #0, r10                 ! Reset r10 (counter)
 loop:
 	bsr displayEntireNumber    ! Display the number
 	nop                        ! Empty Branch Delay Slot
 	bra loop                   ! Repeat Unconditionally
-	add #1, r0                 ! ⤷ Increment the number
+	add #1, r10                 ! ⤷ Increment the number
 
 displayEntireNumber:
-		! r0 = the entire number to print
+		! r10 = the entire number to print
 		! r1 = digit iterator
 		! r2 = digit max constant
 		! r3 = digit address in memory
@@ -40,14 +40,14 @@ ledDataOffset:
 .long 0xBA202070
 
 getCurrentDigit:
-		! r0 = the entire number to print
+		! r10 = the entire number to print
 		! r1 = digit iterator
 		! r7 = shift iterator
 		! r6 = the current nibble
 		! r4 = the character to print
 		! r8 = hex alpha limit
 	sts.l pr, @-r15            ! Push procedure register onto stack
-	mov r0, r6                 ! Put the number into the nibble register
+	mov r10, r6                ! Put the number into the nibble register
 	mov #0, r7
 	cmp/eq r7, r1              ! Are we going to shift at all?
 	bt doneShifting            !   If not, bail
