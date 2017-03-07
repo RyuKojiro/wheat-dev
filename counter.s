@@ -47,16 +47,16 @@ getCurrentDigit:
 		! r4 = the character to print
 		! r8 = hex alpha limit
 	sts.l pr, @-r15            ! Push procedure register onto stack
-	mov #0, r7                 ! Reset the shift iterator
 	mov r0, r6                 ! Put the number into the nibble register
-	cmp/hi r7, r1              ! Is there more to shift?
-	bf doneShifting            !   If not, bail
+	mov #0, r7
+	cmp/eq r7, r1              ! Are we going to shift at all?
+	bt doneShifting            !   If not, bail
+	mov r1, r7                 ! Reset the shift iterator
 shift:
 	shlr2 r6                   ! Shift over to the nibble we want
 	shlr2 r6
-	add #1, r7
-	cmp/hi r7, r1              ! Is there more to shift?
-	bt shift                   !   If so, repeat
+	dt r7                      ! Decrement shift iterator and compare
+	bf shift                   !   If there's stuff left, repeat
 doneShifting:
 	mov #0xF, r8               ! Load up 0xF constant for masking
 	and r8, r6                 ! Mask away anything higher than the nibble we care about
