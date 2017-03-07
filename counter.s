@@ -62,7 +62,7 @@ doneShifting:
 	and r8, r6                 ! Mask away anything higher than the nibble we care about
 	mov #0xA, r8               ! Move 0xA constant into place for comparison
 	cmp/hs r8, r6              ! Is r6 ≥ 0xA?
-    bt itsAlpha                !   If so, it's alpha, go there
+	bt itsAlpha                !   If so, it's alpha, go there
 	add #'0', r6               ! Normalize to a numeric character
 	bf digitDone               ! Skip over itsAlpha, because it's not
 
