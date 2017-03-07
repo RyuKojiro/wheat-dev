@@ -17,7 +17,7 @@ displayEntireNumber:
 		! r4 = the character to print
 		! r5 = temporary relative
 		! r9 = temporary digit math
-	sts.l pr, @-r15
+	sts.l pr, @-r15            ! Push procedure register onto stack
 	mov #0, r1                 ! r1 will be our digit iterator
 	mov #7, r2                 ! r2 will be our upper limit
 displayDigit:
@@ -26,12 +26,12 @@ displayDigit:
 	sub r1, r9                 ! r9 -= r1
 	shll r9                    ! r9 *= 2
 	bsr getCurrentDigit        ! Calculate the character for the digit
-	add r9, r3                 ! ⤷ Add the digit number (*2) to the offset
+	add r9, r3                 ! ⤷ Add the calculated offset to the ledDataOffset
 	mov.b r4, @r3              ! Write character to display digit
 	add #1, r1                 ! Increment the digit count
 	cmp/hs r1, r2              ! Are we done with the 8th digit yet?
 	bt displayDigit            !   If not, go to the next digit
-	lds.l @r15+, pr
+	lds.l @r15+, pr            ! Pop procedure register
 	rts
 	nop
 
@@ -46,7 +46,7 @@ getCurrentDigit:
 		! r6 = the current nibble
 		! r4 = the character to print
 		! r8 = hex alpha limit
-	sts.l pr, @-r15
+	sts.l pr, @-r15            ! Push procedure register onto stack
 	mov #0, r7                 ! Reset the shift iterator
 	mov r0, r6                 ! Put the number into the nibble register
 	cmp/hi r7, r1              ! Is there more to shift?
@@ -64,11 +64,11 @@ doneShifting:
 	cmp/hs r8, r6              ! Is r6 ≥ 0xA?
     bt itsAlpha                !   If so, it's alpha, go there
 	add #'0', r6               ! Normalize to a numeric character
-	bf digitDone
+	bf digitDone               ! Skip over itsAlpha, because it's not
 
 itsAlpha:
 	add #'A' - 0xA, r6         ! Normalize to an alpha character
 digitDone:
-	lds.l @r15+, pr
+	lds.l @r15+, pr            ! Pop procedure register
 	rts
 	mov r6, r4                 ! ⤷ Transfer the result
