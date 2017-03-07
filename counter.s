@@ -42,20 +42,19 @@ ledDataOffset:
 getCurrentDigit:
 		! r10 = the entire number to print
 		! r1 = digit iterator
-		! r7 = shift iterator
+		! r0 = shift iterator
 		! r6 = the current nibble
 		! r4 = the character to print
 		! r8 = hex alpha limit
 	sts.l pr, @-r15            ! Push procedure register onto stack
 	mov r10, r6                ! Put the number into the nibble register
-	mov #0, r7
-	cmp/eq r7, r1              ! Are we going to shift at all?
+	mov r1, r0                 ! Reset the shift iterator
+	cmp/eq #0, r0              ! Are we going to shift at all?
 	bt doneShifting            !   If not, bail
-	mov r1, r7                 ! Reset the shift iterator
 shift:
 	shlr2 r6                   ! Shift over to the nibble we want
 	shlr2 r6
-	dt r7                      ! Decrement shift iterator and compare
+	dt r0                      ! Decrement shift iterator and compare
 	bf shift                   !   If there's stuff left, repeat
 doneShifting:
 	mov #0xF, r8               ! Load up 0xF constant for masking
