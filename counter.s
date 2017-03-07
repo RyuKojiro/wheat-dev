@@ -64,7 +64,6 @@ doneShifting:
 	bt itsAlpha                !   If so, it's alpha, go there
 	add #'0', r6               ! Normalize to a numeric character
 	bf digitDone               ! Skip over itsAlpha, because it's not
-
 itsAlpha:
 	add #'A' - 0xA, r6         ! Normalize to an alpha character
 digitDone:
