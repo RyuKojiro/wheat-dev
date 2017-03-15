@@ -19,7 +19,7 @@ static char tohexchar(int x) {
 		return x + '0';
 	}
 	else {
-		return x + 'A';
+		return x - 10 + 'A';
 	}
 }
 
