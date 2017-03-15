@@ -27,7 +27,7 @@ static char tohexchar(int x) {
 static void lcdDisplayNumber(long number) {
 	for(int i = 0; i < 8; i++) {
 		int d = (number >> (i * 4)) & 0xF;
-		lcdDisplayCharacter(8-i, tohexchar(d));
+		lcdDisplayCharacter(7-i, tohexchar(d));
 	}
 }
 
