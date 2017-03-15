@@ -3,6 +3,7 @@ AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 ASFLAGS= --little --isa=sh4a
+CFLAGS=  -fpic
 OCFLAGS= -O binary --only-section=.text
 
 simple: simple.bin
