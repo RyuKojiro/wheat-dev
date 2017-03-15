@@ -2,7 +2,7 @@
 static void lcdDisplayNumber(long number);
 
 int main() {
-	for(long i = 0;; i++) {
+	for(long long i = 0;; i++) {
 		lcdDisplayNumber(i);
 	}
 
