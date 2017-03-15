@@ -1,3 +1,14 @@
+
+static void lcdDisplayNumber(long number);
+
+int main() {
+	for(long i = 0;; i++) {
+		lcdDisplayNumber(i);
+	}
+
+	return 0;
+}
+
 static void lcdDisplayCharacter(int digit, char c) {
 	char *lcdStorage = (char *)0xBA202070;
 	lcdStorage[digit*2] = c;
@@ -17,13 +28,5 @@ static void lcdDisplayNumber(long number) {
 		int d = (number >> (i * 4)) & 0xF;
 		lcdDisplayCharacter(8-i, tohexchar(d));
 	}
-}
-
-int main() {
-	for(long i = 0;; i++) {
-		lcdDisplayNumber(i);
-	}
-
-	return 0;
 }
 
