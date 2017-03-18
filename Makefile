@@ -3,6 +3,7 @@ AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
+CFLAGS=  -fpic
 ASFLAGS= --little --isa=sh4a
 LDFLAGS= -T wheat.ld
 OCFLAGS= -O binary --only-section=.text
