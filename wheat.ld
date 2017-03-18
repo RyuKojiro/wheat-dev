@@ -10,19 +10,19 @@ MEMORY
 
 SECTIONS
 {
-	.text {
+	.text : {
 		_TEXT_START_ = .;
 		*(.text)
 		_TEXT_END_ = .;
 	}
 
-	.data {
+	.data : {
 		_DATA_START_ = .;
 		*(.data)
 		_DATA_END_ = .;
 	}
 
-	.bss {
+	.bss : {
 		_BSS_START_ = .;
 		*(.bss)
 		_BSS_END_ = .;
