@@ -1,4 +1,4 @@
-static void singleFunctionExample() {
+static void main() {
 	char *lcdStorage = (char *)0xBA202070;
 	char string[] = "It's C! ";
 
