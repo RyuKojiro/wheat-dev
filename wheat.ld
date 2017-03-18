@@ -11,6 +11,7 @@ MEMORY
 SECTIONS
 {
 	.text : {
+		_GLOBAL_OFFSET_TABLE_ = .;
 		_TEXT_START_ = .;
 		*(.text)
 		_TEXT_END_ = .;
