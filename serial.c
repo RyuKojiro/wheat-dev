@@ -1,7 +1,7 @@
 #include "serial.h"
 
 void main() {
-	serial_print("Hello, world!");
+	serial_print("Hello, world!\n\r");
 }
 
 void serial_putchar(const char c) {
