@@ -8,6 +8,9 @@ ASFLAGS= --little --isa=sh4a
 LDFLAGS= -T wheat.ld
 OCFLAGS= -O binary --only-section=.text
 
+serial: serial.bin
+	expect run.exp $<
+
 simple: simple.bin
 	expect run.exp $<
 
