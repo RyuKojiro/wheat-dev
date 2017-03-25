@@ -1,5 +1,4 @@
-void serial_print(const char *string);
-void serial_putchar(const char c);
+#include "serial.h"
 
 void main() {
 	serial_print("Hello, world!");
