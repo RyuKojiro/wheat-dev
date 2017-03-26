@@ -10,8 +10,9 @@ MEMORY
 
 SECTIONS
 {
+	. = 0x08000000;
+	_GLOBAL_OFFSET_TABLE_ = .;
 	.text : {
-		_GLOBAL_OFFSET_TABLE_ = .;
 		_TEXT_START_ = .;
 		*(.text)
 		_TEXT_END_ = .;
