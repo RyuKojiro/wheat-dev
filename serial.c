@@ -3,7 +3,7 @@
 
 #include "serial.h"
 
-void main() {
+int main() {
 	serial_print("Hello, world!\n\r");
 	char c = serial_getchar();
 	serial_putchar(c);
