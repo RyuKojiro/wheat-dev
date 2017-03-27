@@ -29,6 +29,8 @@ startOver:
 	char result = *in_register;
 
 	*status_register &= 0xFD;
+
+	return result;
 }
 
 void serial_putchar(const char c) {
