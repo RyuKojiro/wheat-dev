@@ -4,7 +4,7 @@ CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 INCLUDE= -I../NetBSD/src/sys/ -I../NetBSD/src/sys/arch/evbsh3/compile/WHEAT/ -I../NetBSD/src/sys/arch/sh3/include
-CFLAGS=  -fpic -Os $(INCLUDE) -DSH4A
+CFLAGS=  -Wall -fpic -Os $(INCLUDE) -DSH4A
 ASFLAGS= --little --isa=sh4a
 LDFLAGS= -T wheat.ld
 OCFLAGS= -O binary --only-section=.text
