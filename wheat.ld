@@ -14,7 +14,10 @@ SECTIONS
 	_GLOBAL_OFFSET_TABLE_ = .;
 	.text : {
 		_TEXT_START_ = .;
+		*(.text.startup)
 		*(.text)
+		*(.rodata)
+		*(.rodata*)
 		_TEXT_END_ = .;
 	}
 
@@ -30,4 +33,3 @@ SECTIONS
 		_BSS_END_ = .;
 	}
 }
-
