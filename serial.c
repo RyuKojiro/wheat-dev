@@ -1,3 +1,6 @@
+#include <sys/stdint.h>
+#include <scifreg.h>
+
 #include "serial.h"
 
 void main() {
@@ -8,43 +11,36 @@ void main() {
 }
 
 char serial_getchar() {
-	volatile short *status_register = 0xFFE00010;
-	volatile char *in_register = 0xFFE00014;
-	volatile short *port_register = 0xFFE00024;
-
 startOver:
-	if(*status_register & 0x9C) {
-		*status_register &= 0x63;
+	if(SHREG_SCSSR2 & 0x9C) {
+		SHREG_SCSSR2 &= 0x63;
 		goto startOver;
 	}
-	if(*port_register & 0x01) {
-		*port_register ^= *port_register;
-		*status_register &= 0x63;
+	if(SHREG_SCLSR2 & 0x01) {
+		SHREG_SCLSR2 ^= SHREG_SCLSR2;
+		SHREG_SCSSR2 &= 0x63;
 		goto startOver;
 	}
-	if(!(*status_register & 0x02)) {
+	if(!(SHREG_SCSSR2 & 0x02)) {
 		goto startOver;
 	}
 
-	char result = *in_register;
+	char result = SHREG_SCFRDR2;
 
-	*status_register &= 0xFD;
+	SHREG_SCSSR2 &= 0xFD;
 
 	return result;
 }
 
 void serial_putchar(const char c) {
-	volatile short *status_register = 0xFFE00010;
-	volatile char *out_register = 0xFFE0000C;
-
 	/* Spin lock until transmit enable flag is set */
-	while(!(*status_register & 0x20));
+	while(!(SHREG_SCSSR2 & 0x20));
 
 	/* Load the character into the fifo register */
-	*out_register = c;
+	SHREG_SCFTDR2 = c;
 
 	/* Set flags to send byte */
-	*status_register &= 0x9F;
+	SHREG_SCSSR2 &= 0x9F;
 }
 
 void serial_print(const char *string) {
