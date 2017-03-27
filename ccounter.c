@@ -1,9 +1,10 @@
 typedef long long uint32_t;
 
 static void lcdDisplayNumber(long number);
+static uint32_t i;
 
 int main() {
-	for(uint32_t i = 0;; i++) {
+	while(++i) {
 		lcdDisplayNumber(i);
 	}
 
