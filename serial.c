@@ -25,6 +25,23 @@ startOver:
 	return result;
 }
 
+void serial_getline(char *buf, int len) {
+	/* TODO: handle backspace */
+	char c;
+	int i;
+	for(i = 0; i < len - 1; i++) {
+		c = serial_getchar();
+		serial_putchar(c);
+		if(c == '\r') {
+			serial_putchar('\n');
+			break;
+		}
+
+		buf[i] = c;
+	}
+	buf[i] = '\0';
+}
+
 void serial_putchar(const char c) {
 	/* Spin lock until transmit enable flag is set */
 	while(!(SHREG_SCSSR2 & 0x20));
