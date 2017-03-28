@@ -18,7 +18,7 @@ static void loadFromSD(void) {
 
 int main(void) {
 	/* Print the options */
-	serial_print(">> NetBSD/sh3 Serial & SD Bootloader. Version 0.0\n\r");
+	serial_print(">> NetBSD/sh3 Serial & SD Bootloader.\n\r");
 
 	/* Get a selection */
 	char selection;
