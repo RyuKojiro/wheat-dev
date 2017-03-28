@@ -1,4 +1,4 @@
-typedef long long uint32_t;
+typedef unsigned long uint32_t;
 
 static void lcdDisplayNumber(long number);
 static uint32_t i;
