@@ -15,12 +15,6 @@ loader: loader.bin
 loader.bin: loader.o serial.o
 	$(LD) $(LDFLAGS) -o $@ $?
 
-serial: serial.bin
-	expect run.exp $<
-
-serial.bin: serial.o
-	$(LD) $(LDFLAGS) -o $@ $?
-
 clean:
 	rm -f *.bin *.o
 
