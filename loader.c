@@ -13,20 +13,20 @@ static void loadFromSerial(void) {
 }
 
 static void loadFromSD(void) {
-	serial_print("Loading from SD cards is not yet implemented.\n\r");
+	serial_print("Booting from SD cards is not yet implemented.\n\r");
 }
 
 int main(void) {
 	/* Print the options */
-	serial_print(">> NetBSD/sh3 Serial & SD Bootloader. Version 0.0\n\r"
-	             "\n\r"
-	             "\t1. Load via serial\n\r"
-	             "\t2. Load from SD Card\n\r");
+	serial_print(">> NetBSD/sh3 Serial & SD Bootloader. Version 0.0\n\r");
 
 	/* Get a selection */
 	char selection;
 	for(;;) {
 		serial_print("\n\r"
+					 "\t1. Load kernel via serial\n\r"
+					 "\t2. Boot from SD Card\n\r"
+					 "\n\r"
 					 "Choose an Option: ");
 
 		selection = serial_getchar();
