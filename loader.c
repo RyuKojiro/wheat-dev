@@ -1,9 +1,41 @@
+#include <sys/stdbool.h>
+
 #include "serial.h"
 
-int main() {
-	serial_print(">> NetBSD/sh3 Serial/SD Bootloader. Version 0.0\n\r"
+static void loadFromSerial(void) {
+	serial_print("Enter kernel size in bytes: ");
+	//serial_getline(line);
+}
+
+static void loadFromSD(void) {
+	serial_print("Loading from SD cards is not yet implemented.\n\r");
+}
+
+int main(void) {
+	/* Print the options */
+	serial_print(">> NetBSD/sh3 Serial & SD Bootloader. Version 0.0\n\r"
 	             "\n\r"
 	             "\t1. Load via serial\n\r"
 	             "\t2. Load from SD Card\n\r"
-	             "\n\r");
+	             "\n\r"
+	             "Choose an Option: ");
+
+	/* Get a selection */
+	char selection;
+	for(;;) {
+		selection = serial_getchar();
+		serial_putchar(selection);
+
+		/* Act on the selection */
+		switch(selection) {
+			case '1': {
+				loadFromSerial();
+			} break;
+			case '2': {
+				loadFromSD();
+			} break;
+			default:
+				serial_print("Invalid option.\n\r");
+		}
+	}
 }
