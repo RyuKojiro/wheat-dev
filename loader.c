@@ -54,12 +54,11 @@ static void loadFromSD(void) {
 }
 
 int main(void) {
-	/* Print the options */
 	serial_print(">> NetBSD/sh3 Serial & SD Bootloader.\n\r");
 
-	/* Get a selection */
 	char selection;
 	for(;;) {
+		/* Print the options */
 		serial_print("\n\r"
 					 "\t1. Load kernel via serial\n\r"
 					 "\t2. Boot from SD Card\n\r"
@@ -67,6 +66,7 @@ int main(void) {
 					 "\n\r"
 					 "Choose an Option: ");
 
+		/* Get a selection */
 		selection = serial_getchar();
 		serial_putchar(selection);
 		serial_print("\n\r");
