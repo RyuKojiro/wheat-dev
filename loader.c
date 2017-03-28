@@ -16,6 +16,13 @@ static void loadFromSD(void) {
 	serial_print("Booting from SD cards is not yet implemented.\n\r");
 }
 
+static void reboot(void) {
+	/* Jump to the reset vector */
+	__asm__("mov.l @(4,pc),r0");
+	__asm__("jmp @r0");
+	__asm__(".long 0xA0000000");
+}
+
 int main(void) {
 	/* Print the options */
 	serial_print(">> NetBSD/sh3 Serial & SD Bootloader.\n\r");
@@ -26,6 +33,7 @@ int main(void) {
 		serial_print("\n\r"
 					 "\t1. Load kernel via serial\n\r"
 					 "\t2. Boot from SD Card\n\r"
+					 "\t3. Reboot\n\r"
 					 "\n\r"
 					 "Choose an Option: ");
 
@@ -40,6 +48,9 @@ int main(void) {
 			} break;
 			case '2': {
 				loadFromSD();
+			} break;
+			case '3': {
+				reboot();
 			} break;
 			default:
 				serial_print("Invalid option.\n\r");
