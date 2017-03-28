@@ -2,9 +2,14 @@
 
 #include "serial.h"
 
+#define LINE_LEN 20
+
 static void loadFromSerial(void) {
+	char line[LINE_LEN];
 	serial_print("Enter kernel size in bytes: ");
-	//serial_getline(line);
+	serial_getline(line, LINE_LEN);
+	serial_print("You entered: ");
+	serial_print(line);
 }
 
 static void loadFromSD(void) {
