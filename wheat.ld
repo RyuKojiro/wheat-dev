@@ -10,26 +10,23 @@ MEMORY
 
 SECTIONS
 {
-	. = 0x08000000;
 	_GLOBAL_OFFSET_TABLE_ = .;
 	.text : {
 		_TEXT_START_ = .;
-		*(.text.startup)
-		*(.text)
-		*(.rodata)
-		*(.rodata*)
+		*(.text.startup);
+		*(.text);
 		_TEXT_END_ = .;
 	}
 
 	.data : {
 		_DATA_START_ = .;
-		*(.data)
+		*(.data);
 		_DATA_END_ = .;
 	}
 
 	.bss : {
 		_BSS_START_ = .;
-		*(.bss)
+		*(.bss);
 		_BSS_END_ = .;
 	}
 }
