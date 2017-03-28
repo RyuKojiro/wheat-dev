@@ -9,20 +9,17 @@ ASFLAGS= --little --isa=sh4a
 LDFLAGS= -T wheat.ld
 OCFLAGS= -O binary --only-section=.text
 
+loader: loader.bin
+	expect run.exp $<
+
+loader.bin: loader.o serial.o
+	$(LD) $(LDFLAGS) -o $@ $?
+
 serial: serial.bin
 	expect run.exp $<
 
-simple: simple.bin
-	expect run.exp $<
-
-counter: counter.bin
-	expect run.exp $<
-
-ccounter: ccounter.bin
-	expect run.exp $<
-
-.o.bin:
-	$(LD) $(LDFLAGS) -o $@ $<
+serial.bin: serial.o
+	$(LD) $(LDFLAGS) -o $@ $?
 
 clean:
 	rm -f *.bin *.o

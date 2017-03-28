@@ -3,13 +3,6 @@
 
 #include "serial.h"
 
-int main() {
-	serial_print("Hello, world!\n\r");
-	char c = serial_getchar();
-	serial_putchar(c);
-	serial_print("\n\r");
-}
-
 char serial_getchar() {
 startOver:
 	if(SHREG_SCSSR2 & 0x9C) {
