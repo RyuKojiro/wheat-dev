@@ -16,15 +16,17 @@ int main(void) {
 	serial_print(">> NetBSD/sh3 Serial & SD Bootloader. Version 0.0\n\r"
 	             "\n\r"
 	             "\t1. Load via serial\n\r"
-	             "\t2. Load from SD Card\n\r"
-	             "\n\r"
-	             "Choose an Option: ");
+	             "\t2. Load from SD Card\n\r");
 
 	/* Get a selection */
 	char selection;
 	for(;;) {
+		serial_print("\n\r"
+					 "Choose an Option: ");
+
 		selection = serial_getchar();
 		serial_putchar(selection);
+		serial_print("\n\r");
 
 		/* Act on the selection */
 		switch(selection) {
