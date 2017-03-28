@@ -64,4 +64,4 @@ expect ">" {
 	send "g 08000000\r"
 }
 
-#interact
+interact
