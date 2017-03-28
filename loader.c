@@ -60,11 +60,11 @@ int main(void) {
 	for(;;) {
 		/* Print the options */
 		serial_print("\n\r"
-					 "\t1. Load kernel via serial\n\r"
-					 "\t2. Boot from SD Card\n\r"
-					 "\t3. Reboot\n\r"
-					 "\n\r"
-					 "Choose an Option: ");
+		             "\t1. Load kernel via serial\n\r"
+		             "\t2. Boot from SD Card\n\r"
+		             "\t3. Reboot\n\r"
+		             "\n\r"
+		             "Choose an Option: ");
 
 		/* Get a selection */
 		selection = serial_getchar();
