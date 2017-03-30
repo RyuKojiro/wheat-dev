@@ -19,10 +19,24 @@ static void reboot(void) {
 	JUMP_TO_ADDRESS(RESET_VEC);
 }
 
+/*
+ * The len argument here is the actual length of the string,
+ * not larger, not smaller.
+ */
+static size_t lengthFromDecimalString(int len, const char *buf) {
+	size_t result = 0;
+	while(len) {
+		result *= 10;
+		result += buf[len--];
+	}
+	return result;
+}
+
 static void loadFromSerial(void) {
 	char line[LINE_LEN];
 	serial_print("Enter kernel size in bytes: ");
-	serial_getline(line, LINE_LEN);
+	int len = serial_getline(line, LINE_LEN);
+	size_t size = lengthFromDecimalString(len, line);
 	serial_print("You entered: ");
 	serial_print(line);
 }
