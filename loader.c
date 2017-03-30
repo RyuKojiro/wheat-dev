@@ -1,4 +1,5 @@
 #include <sys/stdbool.h>
+#include <stddef.h>
 
 #include "serial.h"
 
