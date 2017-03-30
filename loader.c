@@ -25,15 +25,11 @@ static void reboot(void) {
 	JUMP_TO_ADDRESS(RESET_VEC);
 }
 
-/*
- * The len argument here is the actual length of the string,
- * not larger, not smaller.
- */
 static size_t lengthFromDecimalString(int len, const char *buf) {
 	size_t result = 0;
-	while(len) {
+	for(int i = 0; i < len && buf[i]; i++) {
 		result *= 10;
-		result += buf[len--];
+		result += buf[i] - '0';
 	}
 	return result;
 }
