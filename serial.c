@@ -25,7 +25,7 @@ startOver:
 	return result;
 }
 
-void serial_getline(char *buf, int len) {
+int serial_getline(char *buf, int len) {
 	/* TODO: handle backspace */
 	char c;
 	int i;
@@ -40,6 +40,7 @@ void serial_getline(char *buf, int len) {
 		buf[i] = c;
 	}
 	buf[i] = '\0';
+	return i;
 }
 
 void serial_putchar(const char c) {
