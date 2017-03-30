@@ -3,6 +3,21 @@
 #include "serial.h"
 
 #define LINE_LEN 20
+#define LOAD_ADDR 0x09000000
+#define RESET_VEC 0xA0000000
+
+#define JUMP_TO_ADDRESS(addr) \
+	__asm__("mov.l @(4,pc),r0"); \
+	__asm__("jmp @r0"); \
+	__asm__(".long " # addr); \
+
+static void bootKernel(void) {
+	JUMP_TO_ADDRESS(LOAD_ADDR);
+}
+
+static void reboot(void) {
+	JUMP_TO_ADDRESS(RESET_VEC);
+}
 
 static void loadFromSerial(void) {
 	char line[LINE_LEN];
@@ -14,13 +29,6 @@ static void loadFromSerial(void) {
 
 static void loadFromSD(void) {
 	serial_print("Booting from SD cards is not yet implemented.\n\r");
-}
-
-static void reboot(void) {
-	/* Jump to the reset vector */
-	__asm__("mov.l @(4,pc),r0");
-	__asm__("jmp @r0");
-	__asm__(".long 0xA0000000");
 }
 
 int main(void) {
