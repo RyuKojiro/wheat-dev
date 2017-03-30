@@ -7,10 +7,15 @@
 #define LOAD_ADDR 0x09000000
 #define RESET_VEC 0xA0000000
 
-#define JUMP_TO_ADDRESS(addr) \
-	__asm__("mov.l @(4,pc),r0"); \
-	__asm__("jmp @r0"); \
-	__asm__(".long " # addr); \
+#define _STRINGIFY(a) #a
+#define STRINGIFY(a) _STRINGIFY(a)
+
+#define JUMP_TO_ADDRESS(addr) { \
+	asm volatile (".align 3"); \
+	asm volatile ("mov.l @(4,pc),r0"); \
+	asm volatile ("jmp @r0"); \
+	asm volatile (".long " STRINGIFY(addr)); \
+}
 
 static void bootKernel(void) {
 	JUMP_TO_ADDRESS(LOAD_ADDR);
