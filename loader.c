@@ -38,8 +38,14 @@ static void loadFromSerial(void) {
 	serial_print("Enter kernel size in bytes: ");
 	int len = serial_getline(line, LINE_LEN);
 	size_t size = lengthFromDecimalString(len, line);
-	serial_print("You entered: ");
-	serial_print(line);
+
+	serial_print("Send kernel when ready.\n\r");
+	char *zone = (char *)LOAD_ADDR;
+	for(size_t o = 0; o < size; o++) {
+		zone[o] = serial_getchar();
+	}
+	serial_print("Done loading. Commencing boot.\n\r");
+	bootKernel();
 }
 
 static void loadFromSD(void) {
