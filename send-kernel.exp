@@ -1,0 +1,53 @@
+#!/usr/bin/expect
+
+log_user 0
+
+set port /dev/tty.usbserial-AL020VX7
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set file [lindex $argv 0]
+
+proc sendFile {filename} {
+	set offset 0x08000000
+	set addr 0
+	set len [file size $filename]
+	expect "Enter kernel size in bytes: " {
+		send "$len\r";
+	}
+
+	set start [clock milliseconds]
+	set fp [open $filename r]
+	chan configure $fp -translation binary
+	while {$addr < $len} {
+		expect "." {
+			for {set i 0} {$i < 10} {incr i} {
+				send [scan [read $fp 1] %c]
+				incr addr
+			}
+
+			set now [clock milliseconds]
+			set percent [expr 100 * $addr / $len]
+			set rate [format %.2f [expr $addr / (($now - $start) / 1000.0)]]
+			send_user "$addr/$len bytes - $rate bytes/sec - $percent%\r"
+		}
+	}
+	close $fp
+	send ".\r"
+	send_user "\n"
+}
+
+send_user "Waiting for remote side…\n"
+send "\r"
+
+while {1} {
+	expect "Choose an Option: " {
+		send "1"
+		send_user "Sending $file…\n"
+		sendFile $file
+		interact
+	} ">" {
+		send "g 08000000\r"
+	}
+}
+
