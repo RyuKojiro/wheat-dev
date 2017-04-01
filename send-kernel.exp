@@ -29,7 +29,7 @@ proc sendFile {filename} {
 			set now [clock milliseconds]
 			set percent [expr 100 * $addr / $len]
 			set rate [format %.2f [expr $addr / (($now - $start) / 1000.0)]]
-			set hex [format %08X $addr]
+			set hex [format %08X [expr $offset + $addr]]
 			send_user "$hex - $addr/$len bytes - $rate bytes/sec - $percent%\r"
 		}
 	}
