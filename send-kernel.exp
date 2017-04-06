@@ -15,7 +15,7 @@ proc formatMinsAndSecs {totalSeconds} {
 }
 
 proc sendFile {filename} {
-	set chunkSize 1
+	set chunkSize 100
 	set offset 0x08000000
 	set addr 0
 	set len [file size $filename]

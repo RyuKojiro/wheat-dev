@@ -4,7 +4,7 @@
 #include "serial.h"
 
 #define LINE_LEN   20
-#define CHUNK_SIZE 1
+#define CHUNK_SIZE 100
 #define LOAD_ADDR  0x09000000
 #define RESET_VEC  0xA0000000
 
