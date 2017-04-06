@@ -64,4 +64,5 @@ expect ">" {
 	send "g 08000000\r"
 }
 
-interact
+send_user "Bootloader waiting, run send-kernel.exp.\n"
+#interact
