@@ -3,9 +3,10 @@
 
 #include "serial.h"
 
-#define LINE_LEN 20
-#define LOAD_ADDR 0x09000000
-#define RESET_VEC 0xA0000000
+#define LINE_LEN   20
+#define CHUNK_SIZE 1
+#define LOAD_ADDR  0x09000000
+#define RESET_VEC  0xA0000000
 
 #define _STRINGIFY(a) #a
 #define STRINGIFY(a) _STRINGIFY(a)
@@ -42,11 +43,13 @@ static void loadFromSerial(void) {
 
 	serial_print("Send kernel when ready.\n\r");
 	char *zone = (char *)LOAD_ADDR;
+	serial_putchar('.');
 	for(size_t o = 0; o < size; o++) {
-		if (o % 10 == 1) {
+		zone[o] = serial_getchar();
+
+		if (o % CHUNK_SIZE == 0) {
 			serial_putchar('.');
 		}
-		zone[o] = serial_getchar();
 	}
 	serial_print("Done loading. Commencing boot.\n\r");
 	bootKernel();

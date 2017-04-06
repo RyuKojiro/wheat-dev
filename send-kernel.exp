@@ -15,6 +15,7 @@ proc formatMinsAndSecs {totalSeconds} {
 }
 
 proc sendFile {filename} {
+	set chunkSize 1
 	set offset 0x08000000
 	set addr 0
 	set len [file size $filename]
@@ -27,7 +28,7 @@ proc sendFile {filename} {
 	chan configure $fp -translation binary
 	while {$addr < $len} {
 		expect "." {
-			for {set i 0} {$i < 10} {incr i} {
+			for {set i 0} {$i < $chunkSize} {incr i} {
 				send [scan [read $fp 1] %c]
 				incr addr
 			}
