@@ -42,7 +42,7 @@ proc sendFile {filename} {
 	}
 	close $fp
 	set now [clock milliseconds]
-	set duration [formatMinsAndSecs [expr ($now - $start) / 1000.0]]
+	set duration [formatMinsAndSecs [expr ($now - $start) / 1000]]
 	send_user "Done sending kernel in $duration\n"
 }
 
