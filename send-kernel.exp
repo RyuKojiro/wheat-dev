@@ -23,6 +23,8 @@ proc sendFile {filename} {
 		send "$len\r";
 	}
 
+	set statistics [open "send_statistics.txt" "w"]
+
 	set start [clock milliseconds]
 	set fp [open $filename r]
 	chan configure $fp -translation binary
@@ -38,9 +40,11 @@ proc sendFile {filename} {
 			set bytesRemaining [expr $len - $addr]
 			set timeRemaining [formatMinsAndSecs [expr int($bytesRemaining / $rate)]]
 			send_user "$hex - $addr/$len bytes - $rate bytes/sec - $percent% - $timeRemaining remaining\r"
+			puts $statistics "$now\t$addr\t$rate"
 		}
 	}
 	close $fp
+	close $statistics
 	set now [clock milliseconds]
 	set duration [formatMinsAndSecs [expr ($now - $start) / 1000]]
 	send_user "Done sending kernel in $duration\n"
