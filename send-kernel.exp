@@ -28,10 +28,8 @@ proc sendFile {filename} {
 	chan configure $fp -translation binary
 	while {$addr < $len} {
 		expect "." {
-			for {set i 0} {$i < $chunkSize} {incr i} {
-				send [scan [read $fp 1] %c]
-				incr addr
-			}
+			send -- [read $fp $chunkSize]
+			incr addr $chunkSize
 
 			set now [clock milliseconds]
 			set percent [expr 100 * $addr / $len]
