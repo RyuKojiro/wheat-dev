@@ -7,8 +7,10 @@ NetBSD/evbsh3 Bootloader
 - [x] Loading kernel over serial
   - [x] Using NetBSD's sh3 SCIF register definitions
     - This requires my branch with SH4A SCIF support added, as my board is SH4A
-- [ ] Running from flash
 - [ ] Loading kernel from SD Card
   - [ ] Add the SD support code created here to the sh3 kernel to give it access to the SD card
+- [x] Running from memory
+- [ ] Running from flash
+- [ ] Running from EPROM
 - [ ] Clean it up
   - [ ] Easily configurable serial port
