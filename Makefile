@@ -17,6 +17,9 @@ loader: loader.bin
 loader.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS)
 
+loader.srec: $(OBJS)
+	$(LD) -T flash.ld -o $@ $(OBJS)
+
 clean:
 	rm -f *.bin *.o
 
