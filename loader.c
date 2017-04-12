@@ -51,7 +51,7 @@ static void loadFromSerial(void) {
 			serial_putchar('.');
 		}
 	}
-	serial_print("Done loading. Commencing boot.\n\r");
+	serial_print("\n\rDone loading. Commencing boot.\n\r");
 	bootKernel();
 }
 
