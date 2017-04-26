@@ -9,7 +9,7 @@ ASFLAGS= --little --isa=sh4a
 LDFLAGS= -T wheat.ld
 OCFLAGS= -O binary --only-section=.text
 
-OBJS=loader.o serial.o
+OBJS=loader.o serial.o mmc.o
 
 loader: loader.bin
 	expect run.exp $<

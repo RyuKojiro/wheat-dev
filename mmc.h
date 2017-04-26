@@ -1,3 +1,6 @@
+#include <sys/inttypes.h>
+
+/* SH4A MMCIF Register Definitions */
 
 #define MMCIF_BASE 0xffe60000
 
@@ -45,3 +48,7 @@
 #define MMCIF_DMACR   (*(volatile uint8_t  *)(MMCIF_BASE + 0x44)) /* DMA Control Register */
 #define MMCIF_INTCR2  (*(volatile uint8_t  *)(MMCIF_BASE + 0x46)) /* Interrupt Control Register 2 */
 #define MMCIF_INTSTR2 (*(volatile uint8_t  *)(MMCIF_BASE + 0x48)) /* Interrupt Status Register 2 */
+
+/* MMCIF Interface */
+
+void mmcif_readblock(void *out, uint8_t len, uint16_t addr);
