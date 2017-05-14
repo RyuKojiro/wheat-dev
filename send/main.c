@@ -14,7 +14,7 @@ static void usage() {
 	exit(EX_USAGE);
 }
 
-static void configure(const int fd, const int baud) {
+static void configure(const int fd, const speed_t baud) {
 	struct termios tty = {0};
 
 	if (tcgetattr(fd, &tty) != 0) {
@@ -46,12 +46,12 @@ int main(int argc, char * const argv[]) {
 	 *     send /dev/sttynode < file_to_send
 	 */
 
-	int baud = 115200;
+	speed_t baud = 115200;
 	int ch;
 	while ((ch = getopt(argc, argv, "b:")) != -1) {
 		switch (ch) {
 			case 'b': {
-				baud = atoi(optarg);
+				baud = strtoul(optarg, NULL, 10);
 			} break;
 			case '?':
 			default: {
