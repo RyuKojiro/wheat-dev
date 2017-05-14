@@ -2,12 +2,15 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <sysexits.h>
 #include <termios.h>
 #include <time.h>
 #include <unistd.h>
 
-#define BLOCK_SIZE 512
+#define DEFAULT_BAUD_RATE 115200
+#define BLOCK_SIZE        512
+#define START_ADDRESS     0x08000000
 
 __attribute__((noreturn)) static void usage(void) {
 	fprintf(stderr, "usage: send [-b baud] -s /dev/node input ...\n");
@@ -29,11 +32,17 @@ static void configure(const int fd, const speed_t baud) {
 	}
 }
 
-static void send(FILE *in, const int out) {
+static void send(const int sock, const char *filename) {
+	struct stat s;
+	if(stat(filename, &s)) {
+		errx(EX_IOERR, "stat");
+	}
+	const off_t totalSize = s.st_size;
+
 	struct timespec start;
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
-	size_t totalSize = 0;
+	FILE *in = fopen(filename, "r");
 	int rate = 0;
 	int percent = 0;
 	int timeRemaining = 0;
@@ -42,16 +51,18 @@ static void send(FILE *in, const int out) {
 	size_t bytesRead;
 	while((bytesRead = fread(buf, BLOCK_SIZE, 1, in))) {
 		offset += bytesRead;
-		fprintf(stderr, "%#08llx - %lld/%lu bytes - %d bytes/sec - %u%% - %u remaining\r",
-				offset + 0x80000000,
+
+		fprintf(stderr, "%#08llx - %lld/%lld bytes - %d bytes/sec - %u%% - %u remaining\r",
+				offset + START_ADDRESS,
 				offset,
 				totalSize,
 				rate,
 				percent,
 				timeRemaining
 				);
-		write(out, buf, bytesRead);
+		write(sock, buf, bytesRead);
 	}
+	fclose(in);
 }
 
 int main(int argc, char * const argv[]) {
@@ -60,10 +71,10 @@ int main(int argc, char * const argv[]) {
 	 *     send -b 9600 -s /dev/sttynode file_to_send ...
 	 */
 
-	speed_t baud = 115200;
+	speed_t baud = DEFAULT_BAUD_RATE;
 	int ch;
 	const char *node = NULL;
-	while ((ch = getopt(argc, argv, "b:")) != -1) {
+	while ((ch = getopt(argc, argv, "b:s:")) != -1) {
 		switch (ch) {
 			case 'b': {
 				baud = strtoul(optarg, NULL, 10);
@@ -88,9 +99,7 @@ int main(int argc, char * const argv[]) {
 	const int out = open(node, O_RDWR | O_NOCTTY | O_SYNC);
 	configure(out, baud);
 
-	FILE *in = fopen(argv[0], "r");
-	send(in, out);
-	fclose(in);
+	send(out, argv[0]);
 
 	close(out);
 
