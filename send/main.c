@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <sysexits.h>
 #include <termios.h>
+#include <time.h>
 #include <unistd.h>
+
+#define BLOCK_SIZE 512
 
 static void usage() {
 	fprintf(stderr, "usage: send [-b baud] /dev/node < input\n");
@@ -26,7 +29,15 @@ static void configure(const int fd, const int baud) {
 	}
 }
 
-static void send(int in, int out) {
+static void send(FILE *in, const int out) {
+	struct timespec start;
+	clock_gettime(CLOCK_MONOTONIC, &start);
+
+	char buf[BLOCK_SIZE];
+	size_t bytesRead;
+	while((bytesRead = fread(buf, BLOCK_SIZE, 1, in))) {
+		write(out, buf, bytesRead);
+	}
 }
 
 int main(int argc, char * const argv[]) {
@@ -58,7 +69,7 @@ int main(int argc, char * const argv[]) {
 
 	const int fd = open(argv[argc-1], O_RDWR | O_NOCTTY | O_SYNC);
 	configure(fd, baud);
-	send(fileno(stdin), fd);
+	send(stdin, fd);
 	close(fd);
 
 	return EX_OK;
