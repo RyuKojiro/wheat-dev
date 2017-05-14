@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 static void usage() {
-	fprintf(stderr, "usage");
+	fprintf(stderr, "usage: send [-b baud] /dev/node < input\n");
 	exit(EX_USAGE);
 }
 
@@ -51,8 +51,9 @@ int main(int argc, char * const argv[]) {
 	argc -= optind;
 	argv += optind;
 
-	if (argc < 2) {
-		errx(EX_USAGE, "You must supply the serial device node as an argument");
+	if (argc != 1) {
+		warnx("You must supply exactly one serial device node as an argument");
+		usage();
 	}
 
 	const int fd = open(argv[argc-1], O_RDWR | O_NOCTTY | O_SYNC);
