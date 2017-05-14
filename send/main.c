@@ -1,9 +1,8 @@
+#include <err.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <sysexits.h>
-#include <err.h>
 #include <termios.h>
-#include <sysexits.h>
-#include <fcntl.h>
 #include <unistd.h>
 
 static void configure(const int fd, const int baud) {
