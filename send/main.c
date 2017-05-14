@@ -9,7 +9,7 @@
 
 #define BLOCK_SIZE 512
 
-static void usage() {
+__attribute__((noreturn)) static void usage(void) {
 	fprintf(stderr, "usage: send [-b baud] /dev/node < input\n");
 	exit(EX_USAGE);
 }
