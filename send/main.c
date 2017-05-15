@@ -10,8 +10,9 @@
 
 #include "../loader.h"
 
+#define NSEC_PER_SEC      (1000000000ULL)
 #define DEFAULT_BAUD_RATE 115200
-#define BLOCK_SIZE        1
+#define BLOCK_SIZE        2
 
 __attribute__((noreturn)) static void usage(void) {
 	fprintf(stderr, "usage: send [-b baud] -s /dev/node input ...\n");
@@ -33,6 +34,24 @@ static void configure(const int fd, const speed_t baud) {
 	}
 }
 
+static size_t rate(struct timespec start, struct timespec now, size_t bytes) {
+	struct timespec diff;
+	diff.tv_sec = now.tv_sec - start.tv_sec;
+	diff.tv_nsec = now.tv_nsec - start.tv_nsec;
+
+	size_t rate = 0;
+
+	if (diff.tv_sec != 0) {
+		rate += bytes/diff.tv_sec;
+	}
+
+	if (diff.tv_nsec != 0) {
+		rate += bytes/diff.tv_nsec/NSEC_PER_SEC;
+	}
+
+	return rate;
+}
+
 static void send(const int sock, const char *filename) {
 	struct stat s;
 	if(stat(filename, &s)) {
@@ -44,23 +63,19 @@ static void send(const int sock, const char *filename) {
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	FILE *in = fopen(filename, "r");
-	int rate = 0;
 	char buf[BLOCK_SIZE];
-	off_t offset = 0;
+	size_t offset = 0;
 	size_t bytesRead;
-	struct timespec now, elapsed;
+	struct timespec now;
 	while((bytesRead = fread(buf, 1, BLOCK_SIZE, in))) {
 		offset += bytesRead;
-
 		clock_gettime(CLOCK_MONOTONIC, &now);
-		elapsed.tv_sec = now.tv_sec - start.tv_sec;
-		elapsed.tv_nsec = now.tv_nsec - start.tv_nsec;
 
-		fprintf(stderr, "%#08llx - %lld/%lld bytes - %d bytes/sec - %lld%% - %u remaining\r",
+		fprintf(stderr, "%#08llx - %llu/%llu bytes - %llu bytes/sec - %llu%% - %u remaining\r",
 				offset + LOAD_ADDR,
 				offset,
 				totalSize,
-				rate,
+				rate(start, now, offset),
 				(offset * 100) / totalSize,
 				0
 				);
