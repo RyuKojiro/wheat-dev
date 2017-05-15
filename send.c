@@ -8,11 +8,11 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "../loader.h"
+#include "loader.h"
 
 #define NSEC_PER_SEC      (1000000000ULL)
 #define DEFAULT_BAUD_RATE 115200
-#define BLOCK_SIZE        2
+#define BLOCK_SIZE        32
 
 __attribute__((noreturn)) static void usage(void) {
 	fprintf(stderr, "usage: send [-b baud] -s /dev/node input ...\n");
