@@ -1,0 +1,28 @@
+#!/usr/bin/expect
+
+log_user 0
+
+set port /dev/tty.usbserial-AL020VX7
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+
+send "\r"
+
+set stage 0
+while {1} {
+	expect  ">" {
+		if {$stage == 0} {
+			send_user "Got prompt\n"
+			send "g 08000000\r"
+			incr stage
+		}
+	} "Choose an Option: " {
+		send_user "Got bootloader\n"
+		send "1"
+	} "Enter kernel size in bytes: " {
+		send_user "Got serial stream setup\n"
+		send "2596904\r"
+		exit
+	}
+}
