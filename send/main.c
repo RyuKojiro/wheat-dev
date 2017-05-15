@@ -11,7 +11,7 @@
 #include "../loader.h"
 
 #define DEFAULT_BAUD_RATE 115200
-#define BLOCK_SIZE        512
+#define BLOCK_SIZE        1
 
 __attribute__((noreturn)) static void usage(void) {
 	fprintf(stderr, "usage: send [-b baud] -s /dev/node input ...\n");
