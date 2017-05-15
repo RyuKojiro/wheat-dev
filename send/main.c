@@ -8,9 +8,10 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "../loader.h"
+
 #define DEFAULT_BAUD_RATE 115200
 #define BLOCK_SIZE        512
-#define START_ADDRESS     0x08000000
 
 __attribute__((noreturn)) static void usage(void) {
 	fprintf(stderr, "usage: send [-b baud] -s /dev/node input ...\n");
@@ -56,7 +57,7 @@ static void send(const int sock, const char *filename) {
 		elapsed.tv_nsec = now.tv_nsec - start.tv_nsec;
 
 		fprintf(stderr, "%#08llx - %lld/%lld bytes - %d bytes/sec - %lld%% - %u remaining\r",
-				offset + START_ADDRESS,
+				offset + LOAD_ADDR,
 				offset,
 				totalSize,
 				rate,
