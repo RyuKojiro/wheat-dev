@@ -11,8 +11,17 @@ OCFLAGS= -O binary --only-section=.text
 
 OBJS=loader.o serial.o mmc.o
 
-loader: loader.bin
+send-kernel: send
+	expect prepare.exp
+	./send -s /dev/tty.usbserial-AL020VX7 ../NetBSD/src/wheatkernel
+
+send-loader: loader.bin
 	expect run.exp $<
+
+# TODO: This rule needs fixing, but is set up to use the local cc, rather than the cross-cc
+send: send.c
+	cc -c -o send.o send.c
+	cc -o send send.o
 
 loader.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS)
@@ -24,5 +33,5 @@ clean:
 	rm -f *.bin *.o
 
 .SUFFIXES: .o .bin
-.PHONY: clean
+.PHONY: clean send-loader send-kernel
 .POSIX:
