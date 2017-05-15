@@ -49,7 +49,7 @@ static void send(const int sock, const char *filename) {
 	off_t offset = 0;
 	size_t bytesRead;
 	struct timespec now, elapsed;
-	while((bytesRead = fread(buf, BLOCK_SIZE, 1, in))) {
+	while((bytesRead = fread(buf, 1, BLOCK_SIZE, in))) {
 		offset += bytesRead;
 
 		clock_gettime(CLOCK_MONOTONIC, &now);
