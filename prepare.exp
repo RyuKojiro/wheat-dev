@@ -1,6 +1,6 @@
 #!/usr/bin/expect
 
-log_user 1
+log_user 0
 
 set port /dev/tty.usbserial-AL020VX7
 set baud 115200
