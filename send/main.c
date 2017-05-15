@@ -44,21 +44,24 @@ static void send(const int sock, const char *filename) {
 
 	FILE *in = fopen(filename, "r");
 	int rate = 0;
-	int percent = 0;
-	int timeRemaining = 0;
 	char buf[BLOCK_SIZE];
 	off_t offset = 0;
 	size_t bytesRead;
+	struct timespec now, elapsed;
 	while((bytesRead = fread(buf, BLOCK_SIZE, 1, in))) {
 		offset += bytesRead;
 
-		fprintf(stderr, "%#08llx - %lld/%lld bytes - %d bytes/sec - %u%% - %u remaining\r",
+		clock_gettime(CLOCK_MONOTONIC, &now);
+		elapsed.tv_sec = now.tv_sec - start.tv_sec;
+		elapsed.tv_nsec = now.tv_nsec - start.tv_nsec;
+
+		fprintf(stderr, "%#08llx - %lld/%lld bytes - %d bytes/sec - %lld%% - %u remaining\r",
 				offset + START_ADDRESS,
 				offset,
 				totalSize,
 				rate,
-				percent,
-				timeRemaining
+				(offset * 100) / totalSize,
+				0
 				);
 		write(sock, buf, bytesRead);
 	}
