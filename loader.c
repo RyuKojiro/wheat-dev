@@ -47,9 +47,11 @@ static void loadFromSerial(void) {
 	for(size_t o = 0; o < size; o++) {
 		zone[o] = serial_getchar();
 
+		/*
 		if (o % CHUNK_SIZE == 0) {
 			serial_putchar('.');
 		}
+		*/
 	}
 	serial_print("\n\rDone loading. Commencing boot.\n\r");
 	bootKernel();
