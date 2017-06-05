@@ -24,12 +24,14 @@ proc ledDisplayPrint {string} {
 }
 
 proc sendFile {filename} {
-	set offset 0x08000000
+	source vars.exp
+
+	scan $bootloader_addr %x offset
 	set addr 0
 	set len [file size $filename]
 	set start [clock milliseconds]
 	expect ">" {
-		send "m 08000000\r";
+		send "m $bootloader_addr\r";
 	}
 
 	set fp [open $filename r]

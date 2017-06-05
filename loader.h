@@ -1,1 +1,1 @@
-#define LOAD_ADDR  0x09000000
+#define LOAD_ADDR  0x08000000

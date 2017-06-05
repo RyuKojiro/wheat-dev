@@ -2,6 +2,8 @@
 
 log_user 0
 
+source vars.exp
+
 set port /dev/tty.usbserial-AL020VX7
 set baud 115200
 set spawned [spawn -open [open $port w+]]
@@ -14,7 +16,7 @@ while {1} {
 	expect  ">" {
 		if {$stage == 0} {
 			send_user "Got prompt\n"
-			send "g 08000000\r"
+			send "g $bootloader_addr\r"
 			incr stage
 		}
 	} "Choose an Option: " {
