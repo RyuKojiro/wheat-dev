@@ -13,9 +13,11 @@
 
 #define JUMP_TO_ADDRESS(addr) { \
 	asm volatile (".align 3"); \
-	asm volatile ("mov.l @(4,pc),r0"); \
-	asm volatile ("jmp @r0"); \
-	asm volatile (".long " STRINGIFY(addr)); \
+	asm volatile ("mov.l @(8,pc),r0"); /* Stuff the register with the target address */ \
+	asm volatile ("jmp @r0"); /* Jump to it */ \
+	asm volatile ("nop"); /* Branch Delay Slot */ \
+	asm volatile (".align 3"); \
+	asm volatile (".long " STRINGIFY(addr)); /* The target address */ \
 }
 
 static void bootKernel(void) {
