@@ -57,7 +57,7 @@ static void send(const int sock, const char *filename) {
 	if(stat(filename, &s)) {
 		errx(EX_IOERR, "stat");
 	}
-	const off_t totalSize = s.st_size;
+	const size_t totalSize = s.st_size;
 
 	struct timespec start;
 	clock_gettime(CLOCK_MONOTONIC, &start);
@@ -78,10 +78,10 @@ static void send(const int sock, const char *filename) {
 		}
 
 		fprintf(stderr,
-				"%#08llx - "
-				"%llu/%llu bytes - "
-				"%llu bytes/sec - "
-				"%llu%% - "
+				"%#08zx - "
+				"%zu/%zu bytes - "
+				"%zu bytes/sec - "
+				"%zu%% - "
 				"%lum%lus remaining\r",
 				offset + LOAD_ADDR,
 				offset, totalSize,
