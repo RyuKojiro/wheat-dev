@@ -67,17 +67,27 @@ static void send(const int sock, const char *filename) {
 	size_t offset = 0;
 	size_t bytesRead;
 	struct timespec now;
+	size_t bps;
+	long remaining = 0;
 	while((bytesRead = fread(buf, 1, BLOCK_SIZE, in))) {
 		offset += bytesRead;
 		clock_gettime(CLOCK_MONOTONIC, &now);
+		bps = rate(start, now, offset);
+		if (bps) {
+			remaining = (totalSize - offset) / bps;
+		}
 
-		fprintf(stderr, "%#08llx - %llu/%llu bytes - %llu bytes/sec - %llu%% - %u remaining\r",
+		fprintf(stderr,
+				"%#08llx - "
+				"%llu/%llu bytes - "
+				"%llu bytes/sec - "
+				"%llu%% - "
+				"%lum%lus remaining\r",
 				offset + LOAD_ADDR,
-				offset,
-				totalSize,
-				rate(start, now, offset),
+				offset, totalSize,
+				bps,
 				(offset * 100) / totalSize,
-				0
+				remaining / 60, remaining % 60
 				);
 		write(sock, buf, bytesRead);
 	}
