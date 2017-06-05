@@ -20,7 +20,7 @@ send-loader: loader.bin
 
 # TODO: This rule needs fixing, but is set up to use the local cc, rather than the cross-cc
 send: send.c
-	cc -c -o send.o send.c
+	cc -ggdb -c -o send.o send.c
 	cc -o send send.o
 
 loader.bin: $(OBJS)
