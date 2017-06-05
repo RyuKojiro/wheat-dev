@@ -30,7 +30,7 @@ loader.srec: $(OBJS)
 	$(LD) -T flash.ld -o $@ $(OBJS)
 
 clean:
-	rm -f *.bin *.o
+	rm -f *.bin *.o send loader.srec
 
 .SUFFIXES: .o .bin
 .PHONY: clean send-loader send-kernel
