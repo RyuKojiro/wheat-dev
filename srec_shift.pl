@@ -19,9 +19,9 @@ use strict;
 
 while(<>) {
 	if($_ =~ /S3([0-9A-F]{2})([0-9A-F]{8})([0-9A-F]*)([0-9A-F]{2})/) {
-		print "size $1\n";
-		print "addr $2\n";
-		print "data $3\n";
-		print "csum $4\n";
+		my $addr = hex($2) - 0x10000000 + 0x8c000000;
+		my $checksum = 0xFF;
+		my $result = sprintf("S3%s%02X%s%02X\n", $1, $addr, $3, $checksum);
+		print $result;
 	}
 }
