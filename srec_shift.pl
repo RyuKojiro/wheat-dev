@@ -19,9 +19,15 @@ use strict;
 
 while(<>) {
 	if($_ =~ /S3([0-9A-F]{2})([0-9A-F]{8})([0-9A-F]*)([0-9A-F]{2})/) {
+		my $len = $1;
 		my $addr = hex($2) - 0x10000000 + 0x8c000000;
-		my $checksum = 0xFF;
-		my $result = sprintf("S3%s%02X%s%02X\n", $1, $addr, $3, $checksum);
+		my $data = $3;
+		my @bytes = ( $3 =~ m/../g );
+		my $checksum = 0;
+		foreach my $byte (@bytes) {
+			$checksum = $checksum ^ hex($byte);
+		}
+		my $result = sprintf("S3%s%02X%s%02X\n", $len, $addr, $data, $checksum);
 		print $result;
 	}
 }
