@@ -82,7 +82,7 @@ static void send(const int sock, const char *filename) {
 				"%zu/%zu bytes - "
 				"%zu bytes/sec - "
 				"%zu%% - "
-				"%lum%lus remaining\r",
+				"%lum%lus remaining  \r",
 				offset + LOAD_ADDR,
 				offset, totalSize,
 				bps,
