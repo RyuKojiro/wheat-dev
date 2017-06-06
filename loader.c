@@ -11,21 +11,12 @@
 #define _STRINGIFY(a) #a
 #define STRINGIFY(a) _STRINGIFY(a)
 
-#define JUMP_TO_ADDRESS(addr) { \
-	asm volatile (".align 3"); \
-	asm volatile ("mov.l @(8,pc),r0"); /* Stuff the register with the target address */ \
-	asm volatile ("jmp @r0"); /* Jump to it */ \
-	asm volatile ("nop"); /* Branch Delay Slot */ \
-	asm volatile (".align 3"); \
-	asm volatile (".long " STRINGIFY(addr)); /* The target address */ \
-}
-
 static void bootKernel(void) {
-	JUMP_TO_ADDRESS(LOAD_ADDR);
+	((void(*)(void))LOAD_ADDR)();
 }
 
 static void reboot(void) {
-	JUMP_TO_ADDRESS(RESET_VEC);
+	((void(*)(void))RESET_VEC)();
 }
 
 static size_t lengthFromDecimalString(int len, const char *buf) {
