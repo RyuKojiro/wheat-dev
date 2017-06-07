@@ -6,7 +6,6 @@ OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 INCLUDE= -I../NetBSD/src/sys/ -I../NetBSD/src/sys/arch/evbsh3/compile/WHEAT/ -I../NetBSD/src/sys/arch/sh3/include -I../NetBSD/src/include/
 CFLAGS=  -Wall -fpic -Os $(INCLUDE) -DSH4A
 ASFLAGS= --little --isa=sh4a
-LDFLAGS= -T wheat.ld
 OCFLAGS= -O binary --only-section=.text
 
 OBJS=loader.o serial.o mmc.o
@@ -25,11 +24,11 @@ send: send.c
 
 # This is meant for loading into RAM
 loader.bin: $(OBJS)
-	$(LD) $(LDFLAGS) -o $@ $(OBJS)
+	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $(OBJS)
 
 # This is meant for loading into flash
 loader.srec: $(OBJS)
-	$(LD) -T flash.ld -o temp.srec $(OBJS)
+	$(LD) $(LDFLAGS) -T flash.ld -o temp.srec $(OBJS)
 	perl srec_shift.pl temp.srec > $@
 	rm temp.srec
 
