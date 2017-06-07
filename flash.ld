@@ -6,7 +6,7 @@ MEMORY
 {
 	rom (rx) : ORIGIN = 0x00000000, LENGTH = 2M
 	flash (rx) : ORIGIN = 0x10000000, LENGTH = 64M
-	ram (wx) : ORIGIN = 0x08000000, LENGTH = 32M
+	ram (wx) : ORIGIN = 0x88000000, LENGTH = 32M
 }
 
 SECTIONS
