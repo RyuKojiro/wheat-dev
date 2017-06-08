@@ -55,6 +55,7 @@ static void loadFromSD(void) {
 }
 
 int main(void) {
+	serial_init();
 	serial_print(">> NetBSD/sh3 Serial & SD Bootloader.\n\r");
 
 	char selection;
