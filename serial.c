@@ -60,3 +60,13 @@ void serial_print(const char *string) {
 	}
 }
 
+void serial_init(void) {
+	/* Reverse engineered voodoo */
+	SHREG_SCSCR2 = 0;
+	SHREG_SCFCR2 = 6;
+	SHREG_SCSSR2 = 0;
+	SHREG_SCSCR2 = 2;
+	SHREG_SCSMR2 = 0;
+	SHREG_SCFCR2 = 0;
+	SHREG_SCSCR2 = 0x32;
+}
