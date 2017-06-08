@@ -22,15 +22,13 @@ send: send.c
 	cc -ggdb -c -o send.o send.c
 	cc -o send send.o
 
-# This is meant for loading into RAM
+# This is meant for loading into RAM/EPROM
 loader.bin: $(OBJS)
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $(OBJS)
 
 # This is meant for loading into flash
 loader.srec: $(OBJS)
-	$(LD) $(LDFLAGS) -T flash.ld -o temp.srec $(OBJS)
-	perl srec_shift.pl temp.srec > $@
-	rm temp.srec
+	$(LD) $(LDFLAGS) -T flash.ld -o $@ $(OBJS)
 
 clean:
 	rm -f *.bin *.o *.srec send
