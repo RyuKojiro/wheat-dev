@@ -16,11 +16,13 @@ use strict;
 # allows the linker to arrange things as they need to be when booted from
 # flash, but allows the S-record to be written from EPROM.
 
+my $from = 0x10000000;
+my $to   = 0x8c000000;
 
 while(<>) {
 	if($_ =~ /S3([0-9A-F]{2})([0-9A-F]{8})([0-9A-F]*)([0-9A-F]{2})/) {
 		my $len = $1;
-		my $addr = hex($2) - 0x10000000 + 0x8c000000;
+		my $addr = hex($2) - $from + $to;
 		my $data = $3;
 		my @bytes = ( $3 =~ m/../g );
 		my $checksum = 0;
