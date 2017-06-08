@@ -33,7 +33,7 @@ loader.srec: $(OBJS)
 	rm temp.srec
 
 clean:
-	rm -f *.bin *.o send loader.srec
+	rm -f *.bin *.o *.srec send
 
 .SUFFIXES: .o .bin
 .PHONY: clean send-loader send-kernel
