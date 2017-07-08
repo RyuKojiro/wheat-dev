@@ -65,6 +65,7 @@ int main(void) {
 		             "\t1. Load kernel via serial\n\r"
 		             "\t2. Boot from SD Card\n\r"
 		             "\t3. Reboot\n\r"
+		             "\t4. Boot to " STRINGIFY(LOAD_ADDR) "\n\r"
 		             "\n\r"
 		             "Choose an Option: ");
 
@@ -83,6 +84,9 @@ int main(void) {
 			} break;
 			case '3': {
 				reboot();
+			} break;
+			case '4': {
+				bootKernel();
 			} break;
 			default:
 				serial_print("Invalid option.\n\r");
