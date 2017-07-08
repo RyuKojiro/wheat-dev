@@ -1,1 +1,1 @@
-#define LOAD_ADDR  ((void *)0x08000000)
+#define LOAD_ADDR  ((void *)0x88000000)
