@@ -14,3 +14,4 @@ NetBSD/evbsh3 Bootloader
 - [x] Running from EPROM
 - [ ] Clean it up
   - [ ] Easily configurable serial port
+  - [ ] Figure out how this and the landisk port bootloader could be merged together
