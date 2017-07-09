@@ -1,4 +1,5 @@
 #include <sys/stdbool.h>
+#include <sys/reboot.h>
 #include <stddef.h>
 
 #include "serial.h"
@@ -12,7 +13,7 @@
 #define STRINGIFY(a) _STRINGIFY(a)
 
 static void bootKernel(void) {
-	((void(*)(void))LOAD_ADDR)();
+	(*(void (*)(int, void *))LOAD_ADDR)(AB_VERBOSE|AB_DEBUG, NULL);
 }
 
 static void reboot(void) {
