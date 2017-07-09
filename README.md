@@ -10,8 +10,7 @@ NetBSD/evbsh3 Bootloader
 - [ ] Loading kernel from SD Card
   - [ ] Add the SD support code created here to the sh3 kernel to give it access to the SD card
 - [x] Running from memory
-- [ ] Running from flash
-- [ ] Running from EPROM
-  - This might not be possible due to a limitation of the CS0 pin keeping EPROM boots from booting 32-bit
+- [x] Running from flash
+- [x] Running from EPROM
 - [ ] Clean it up
   - [ ] Easily configurable serial port
