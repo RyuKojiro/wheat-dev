@@ -1,3 +1,5 @@
+#include "lcd.h"
+
 typedef unsigned long uint32_t;
 
 static void lcdDisplayNumber(long number);
@@ -12,7 +14,6 @@ int main() {
 }
 
 static void lcdDisplayCharacter(int digit, char c) {
-	char *lcdStorage = (char *)0xBA202070;
 	lcdStorage[digit*2] = c;
 }
 
