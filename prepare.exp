@@ -8,7 +8,7 @@ set port /dev/tty.usbserial-AL020VX7
 set baud 115200
 set spawned [spawn -open [open $port w+]]
 exec stty -f $port $baud raw -clocal -echo
-set kernel "../NetBSD/src/wheatkernel"
+set kernel [lindex $argv 0]
 
 send_user "Knocking on the door\n"
 send "\r"

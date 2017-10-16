@@ -10,9 +10,11 @@ OCFLAGS= -O binary --only-section=.text
 
 OBJS=loader.o serial.o mmc.o
 
+KERNEL=../NetBSD/src.sh4/wheatkernel
+
 send-kernel: send
-	expect prepare.exp
-	./send -s /dev/tty.usbserial-AL020VX7 ../NetBSD/src/wheatkernel
+	expect prepare.exp $(KERNEL)
+	./send -s /dev/tty.usbserial-AL020VX7 $(KERNEL)
 
 send-loader: loader.bin
 	expect run.exp $<
