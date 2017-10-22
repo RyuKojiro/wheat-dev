@@ -37,7 +37,7 @@ static void loadFromSerial(void) {
 
 	serial_print("Send kernel when ready.\n\r");
 	char *zone = (char *)LOAD_ADDR;
-	serial_putchar('.');
+	//serial_putchar('.');
 	for(size_t o = 0; o < size; o++) {
 		zone[o] = serial_getchar();
 
