@@ -1,16 +1,17 @@
-TOOLDIR= ../NetBSD/src/obj/tooldir.Darwin-16.3.0-x86_64
+NETBSDSRC= ../NetBSD/src
+TOOLDIR= $(NETBSDSRC)/obj/tooldir.Darwin-17.0.0-x86_64
 AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
-INCLUDE= -I../NetBSD/src/sys/ -I../NetBSD/src/sys/arch/evbsh3/compile/WHEAT/ -I../NetBSD/src/sys/arch/sh3/include -I../NetBSD/src/include/
-CFLAGS=  -Wall -fpic -Os $(INCLUDE) -DSH4A
+INCLUDE= -I$(NETBSDSRC)/sys/ -I$(NETBSDSRC)/sys/arch/evbsh3/compile/WHEAT/ -I$(NETBSDSRC)/sys/arch/sh3/include -I$(NETBSDSRC)/include/ -I.
+CFLAGS=  -Wall -fpic -Os $(INCLUDE) -DSH4A -D_STANDALONE
 ASFLAGS= --little --isa=sh4a
 OCFLAGS= -O binary --only-section=.text
 
 OBJS=loader.o serial.o mmc.o
 
-KERNEL=../NetBSD/src.sh4/wheatkernel
+KERNEL=$(NETBSDSRC)/sys/arch/evbsh3/compile/obj/WHEAT/netbsd
 
 send-kernel: send
 	expect prepare.exp $(KERNEL)
