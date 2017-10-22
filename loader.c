@@ -29,6 +29,46 @@ static size_t lengthFromDecimalString(int len, const char *buf) {
 	return result;
 }
 
+static int fromhexnibble(char c) {
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	else if (c >= 'a' && c <= 'f')
+		return c - 'a';
+	else if (c >= 'A' && c <= 'F')
+		return c - 'A';
+	else
+		return 0;
+}
+
+static char nibbletohex(char nibble) {
+	if (nibble <= 9)
+		return nibble + '0';
+	else
+		return nibble - 0xA + 'A';
+}
+
+static void printhex(char byte) {
+	serial_putchar(nibbletohex((byte >> 4) & 0xF));
+	serial_putchar(nibbletohex(byte & 0xF));
+}
+
+static void *addressFromHexString(int len, const char *buf) {
+	unsigned long result = 0;
+	for(int i = 0; i < len && buf[i]; i++) {
+		result <<= 4;
+		result += fromhexnibble(buf[i]);
+	}
+	return (void *)result;
+}
+
+static void bootAddress(void) {
+	char line[LINE_LEN];
+	serial_print("Enter eight hex digit address: ");
+	int len = serial_getline(line, LINE_LEN);
+	void *l = addressFromHexString(len, line);
+	(*(void (*)(int, void *))l)(AB_VERBOSE|AB_DEBUG, NULL);
+}
+
 static void loadFromSerial(void) {
 	char line[LINE_LEN];
 	serial_print("Enter kernel size in bytes: ");
@@ -55,6 +95,16 @@ static void loadFromSD(void) {
 	serial_print("Booting from SD cards is not yet implemented.\n\r");
 }
 
+static void showKernel(void) {
+	const char *kernel = LOAD_ADDR;
+	for(int i = 0; i < 0xff; i++) {
+		if (i % 0xf == 0)
+			serial_print("\n\r");
+
+		printhex(kernel[i]);
+	}
+}
+
 int main(void) {
 	serial_init();
 	serial_print(">> NetBSD/sh3 Serial & SD Bootloader.\n\r");
@@ -67,6 +117,8 @@ int main(void) {
 		             "\t2. Boot from SD Card\n\r"
 		             "\t3. Reboot\n\r"
 		             "\t4. Boot to " STRINGIFY(LOAD_ADDR) "\n\r"
+		             "\t5. Boot to address\n\r"
+		             "\t6. Show start of kernel\n\r"
 		             "\n\r"
 		             "Choose an Option: ");
 
@@ -88,6 +140,12 @@ int main(void) {
 			} break;
 			case '4': {
 				bootKernel();
+			} break;
+			case '5': {
+				bootAddress();
+			} break;
+			case '6': {
+				showKernel();
 			} break;
 			default:
 				serial_print("Invalid option.\n\r");
