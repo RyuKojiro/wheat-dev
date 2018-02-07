@@ -1,5 +1,5 @@
 NETBSDSRC= ../NetBSD/src
-TOOLDIR= $(NETBSDSRC)/obj/tooldir.Darwin-17.0.0-x86_64
+TOOLDIR= $(NETBSDSRC)/obj/tooldir.Darwin-17.3.0-x86_64
 AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
