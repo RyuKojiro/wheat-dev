@@ -20,10 +20,8 @@ NetBSD/evbsh3 Bootloader
 There are two boot modes, one used for booting the EPROM with the MiniMonitor, the other for booting the flash.
 
 - EPROM Mode
-  - Reset Vector: `0xA0000000`
-  - RAM Region:   `0x08000000 - 0x0C000000`
-  - Flash Region: `0x88000000 - 0x8C000000`
-- Flash Mode
-  - Reset Vector: `0x10000000`
   - RAM Region:   `0x88000000 - 0x8C000000`
   - Flash Region: `0x10000000 - ???`
+- Flash Mode
+  - RAM Region:   `0x08000000 - 0x0C000000`
+  - Flash Region: `??? - ???`
