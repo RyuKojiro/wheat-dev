@@ -113,6 +113,7 @@ static void showKernel(void) {
 
 int main(void) {
 	serial_init();
+	serial_print("\n\r");
 	serial_print(">> NetBSD/sh3 Serial & SD Bootloader.\n\r");
 	serial_print(">> Built on " __DATE__ " " __TIME__ "\n\r");
 	char selection;
