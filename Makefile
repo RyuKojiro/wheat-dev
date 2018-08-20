@@ -18,7 +18,7 @@ send-kernel: send
 	./send -s /dev/tty.usbserial-AL020VX7 $(KERNEL)
 
 send-loader: loader.bin
-	expect run.exp $<
+	expect send-loader.exp $<
 
 # TODO: This rule needs fixing, but is set up to use the local cc, rather than the cross-cc
 send: send.c
