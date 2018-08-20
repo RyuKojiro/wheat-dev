@@ -66,6 +66,12 @@ static void bootAddress(void) {
 	serial_print("Enter eight hex digit address: ");
 	int len = serial_getline(line, LINE_LEN);
 	void *l = addressFromHexString(len, line);
+
+	serial_print("Booting to ");
+	for(int i = 4; i > 0; i--) {
+		printhex(((int)l >> i) & 0xFF);
+	}
+	serial_print("...\n\r");
 	(*(void (*)(int, void *))l)(AB_VERBOSE|AB_DEBUG, NULL);
 }
 
