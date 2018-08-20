@@ -63,7 +63,7 @@ ledDisplayPrint "        "
 
 send_user "Running program…\n"
 expect ">" {
-	send "g 08000000\r"
+	send "g $bootloader_addr\r"
 }
 
 send_user "Bootloader waiting, run send-kernel.exp.\n"
