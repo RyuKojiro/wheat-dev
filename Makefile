@@ -5,7 +5,7 @@ LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 CFLAGS=  -Os
 ASFLAGS= --little --isa=sh4a
-LDFLAGS= -T wheat.ld
+LDFLAGS= -T eprom.ld
 OCFLAGS= -O binary --only-section=.text
 
 simple: simple.bin
