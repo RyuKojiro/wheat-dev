@@ -8,6 +8,9 @@ ASFLAGS= --little --isa=sh4a
 LDFLAGS= -T eprom.ld
 OCFLAGS= -O binary --only-section=.text
 
+anac: anac.bin
+	expect run.exp $<
+
 simple: simple.bin
 	expect run.exp $<
 
