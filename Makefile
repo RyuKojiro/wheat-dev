@@ -9,18 +9,22 @@ LDFLAGS= -T eprom.ld
 OCFLAGS= -O binary --only-section=.text
 
 anac: anac.bin
+	./relay-bootrom.sh
 	./relay-resetcpu.sh
 	expect run.exp $<
 
 simple: simple.bin
+	./relay-bootrom.sh
 	./relay-resetcpu.sh
 	expect run.exp $<
 
 counter: counter.bin
+	./relay-bootrom.sh
 	./relay-resetcpu.sh
 	expect run.exp $<
 
 ccounter: ccounter.bin
+	./relay-bootrom.sh
 	./relay-resetcpu.sh
 	expect run.exp $<
 
