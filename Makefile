@@ -7,6 +7,12 @@ CFLAGS=  -Os
 ASFLAGS= --little --isa=sh4a
 OCFLAGS= -O binary --only-section=.text
 
+# This assembly promises to run only position independent code
+pic: pic.bin
+	./relay-bootrom.sh
+	./relay-resetcpu.sh
+	expect run.exp $<
+
 # This assembly announces the program counter via the LED display
 anac: anac.bin
 	./relay-bootrom.sh
