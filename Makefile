@@ -5,7 +5,6 @@ LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 CFLAGS=  -Os
 ASFLAGS= --little --isa=sh4a
-LDFLAGS= -T eprom.ld
 OCFLAGS= -O binary --only-section=.text
 
 anac: anac.bin
@@ -29,7 +28,7 @@ ccounter: ccounter.bin
 	expect run.exp $<
 
 .o.bin:
-	$(LD) $(LDFLAGS) -o $@ $<
+	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
 
 clean:
 	rm -f *.bin *.o
