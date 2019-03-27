@@ -20,6 +20,9 @@ send-kernel: send
 send-loader: loader.bin
 	expect send-loader.exp $<
 
+flash-loader: loader.srec
+	expect flash-loader.exp $<
+
 # TODO: This rule needs fixing, but is set up to use the local cc, rather than the cross-cc
 send: send.c
 	cc -ggdb -c -o send.o send.c
