@@ -1,4 +1,6 @@
-TOOLDIR= ../NetBSD/src/obj/tooldir.Darwin-17.3.0-x86_64
+
+TOOLSRC= src
+TOOLDIR= $(TOOLSRC)/obj/tooldir.Darwin-17.3.0-x86_64
 AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
@@ -39,6 +41,19 @@ ccounter: ccounter.bin
 
 .o.bin:
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
+
+.s.o: $(CC)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(TOOLDIR)/bin/shle--netbsdelf-gcc: $(TOOLSRC)/obj
+	echo "No tools..."
+	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U build
+
+$(TOOLSRC)/obj:
+	export CVSROOT="anoncvs@anoncvs.NetBSD.org:/cvsroot"
+	export CVS_RSH="ssh"
+	cvs checkout -A -P src
+	mkdir $(TOOLSRC)/obj
 
 clean:
 	rm -f *.bin *.o
