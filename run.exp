@@ -64,4 +64,7 @@ expect ">" {
 	send "g 08000000\r"
 }
 
+# Ensure the entire send got through
+sleep 1
+
 #interact
