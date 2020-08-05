@@ -12,6 +12,7 @@ main:
 display:
 		! r10 = the entire number to print
 	sts pr, r10                ! PR -> r10
+	add #(main-display), r10               ! Subtract the offset from main
 	bsr displayEntireNumber    ! Display the number
 	nop                        ! Empty Branch Delay Slot
 loop:
