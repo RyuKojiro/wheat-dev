@@ -1,4 +1,3 @@
-
 TOOLSRC= src
 TOOLDIR= $(TOOLSRC)/obj/tooldir.Darwin-17.3.0-x86_64
 AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
@@ -39,6 +38,9 @@ ccounter: ccounter.bin
 	./relay-resetcpu.sh
 	expect run.exp $<
 
+.o.srec:
+	$(OBJCOPY) -O srec $< $@
+
 .o.bin:
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
 
@@ -56,8 +58,8 @@ $(TOOLSRC)/obj:
 	mkdir $(TOOLSRC)/obj
 
 clean:
-	rm -f *.bin *.o
+	rm -f *.o *.bin *.srec
 
-.SUFFIXES: .o .bin
+.SUFFIXES: .o .bin .srec
 .PHONY: clean
 .POSIX:
