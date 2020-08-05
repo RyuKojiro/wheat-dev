@@ -7,8 +7,11 @@
 !     booting directly from flash.
 
 main:
+	bsr display                ! A bsr/jsr/bsrf is required to populate PR
+	nop                        ! Empty Branch Delay Slot
+display:
 		! r10 = the entire number to print
-	sts pr, r10                ! PC -> r10
+	sts pr, r10                ! PR -> r10
 	bsr displayEntireNumber    ! Display the number
 	nop                        ! Empty Branch Delay Slot
 loop:
