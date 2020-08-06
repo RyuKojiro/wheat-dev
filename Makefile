@@ -1,5 +1,5 @@
 TOOLSRC= src
-TOOLDIR= $(TOOLSRC)/obj/tooldir.Darwin-17.3.0-x86_64
+TOOLDIR= $(TOOLSRC)/obj/tooldir.`uname -s`-`uname -r`-`uname -m`
 AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
