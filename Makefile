@@ -56,7 +56,7 @@ ccounter: ccounter.bin
 
 $(TOOLDIR)/bin/shle--netbsdelf-gcc: $(TOOLSRC)/obj
 	echo "No tools..."
-	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U build
+	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U tools
 
 $(TOOLSRC)/obj:
 	export CVSROOT="anoncvs@anoncvs.NetBSD.org:/cvsroot"
