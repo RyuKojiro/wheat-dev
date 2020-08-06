@@ -20,6 +20,13 @@ anac: anac.bin
 	./relay-resetcpu.sh
 	expect run.exp $<
 
+anac-flash: anac.srec
+	./relay-bootrom.sh
+	./relay-resetcpu.sh
+	expect flash.exp $<
+	./relay-bootflash.sh
+	./relay-resetcpu.sh
+
 # This is a very rudimentary C program, just to test the basics
 simple: simple.bin
 	./relay-bootrom.sh
