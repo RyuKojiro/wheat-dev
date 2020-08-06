@@ -15,11 +15,13 @@ src/netbsd: $(CC) $(KERNCONF)
 $(KERNCONF): WHEAT
 	ln -s WHEAT $@
 
-# This assembly promises to run only position independent code
-pic: pic.bin
+# This announces the program counter from flash
+anac-flash: anac.srec
 	./relay-bootrom.sh
 	./relay-resetcpu.sh
-	expect run.exp $<
+	expect flash.exp $<
+	./relay-bootflash.sh
+	./relay-resetcpu.sh
 
 # This assembly announces the program counter via the LED display
 anac: anac.bin
@@ -27,12 +29,11 @@ anac: anac.bin
 	./relay-resetcpu.sh
 	expect run.exp $<
 
-anac-flash: anac.srec
+# Same as counter, but implemented in C
+ccounter: ccounter.bin
 	./relay-bootrom.sh
 	./relay-resetcpu.sh
-	expect flash.exp $<
-	./relay-bootflash.sh
-	./relay-resetcpu.sh
+	expect run.exp $<
 
 # This is a very rudimentary C program, just to test the basics
 simple: simple.bin
@@ -46,8 +47,8 @@ counter: counter.bin
 	./relay-resetcpu.sh
 	expect run.exp $<
 
-# Same as counter, but implemented in C
-ccounter: ccounter.bin
+# This assembly promises to run only position independent code
+pic: pic.bin
 	./relay-bootrom.sh
 	./relay-resetcpu.sh
 	expect run.exp $<
