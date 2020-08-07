@@ -1,5 +1,8 @@
+OSNAME:=$(shell uname -s)
+OSVERS:=$(shell uname -r)
+OSARCH:=$(shell uname -m)
 TOOLSRC= src
-TOOLDIR= $(TOOLSRC)/obj/tooldir.`uname -s`-`uname -r`-`uname -m`
+TOOLDIR= $(TOOLSRC)/obj/tooldir.$(OSNAME)-$(OSVERS)-$(OSARCH)
 AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
