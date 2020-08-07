@@ -10,9 +10,10 @@ OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 CFLAGS=  -Os
 ASFLAGS= --little --isa=sh4a
 OCFLAGS= -O binary --only-section=.text
-KERNCONF= $(TOOLSRC)/sys/arch/evbsh3/conf/WHEAT
+KERNCONF=$(TOOLSRC)/sys/arch/evbsh3/conf/WHEAT
+KERNEL=  $(TOOLSRC)/sys/arch/evbsh3/compile/obj/WHEAT/netbsd
 
-src/netbsd: $(CC) $(KERNCONF)
+$(KERNEL): $(CC) $(KERNCONF)
 	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U kernel=WHEAT
 
 $(KERNCONF): WHEAT
