@@ -16,7 +16,7 @@ src/netbsd: $(CC) $(KERNCONF)
 	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U kernel=WHEAT
 
 $(KERNCONF): WHEAT
-	ln -s WHEAT $@
+	ln -s $(PWD)/$< $@
 
 # This announces the program counter from flash
 anac-flash: anac.srec
