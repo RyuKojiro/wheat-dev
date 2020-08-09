@@ -17,7 +17,7 @@ netbsd.srec: $(KERNEL)
 	$(OBJCOPY) -O srec $< $@
 
 $(KERNEL): $(CC) $(KERNCONF)
-	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U kernel=WHEAT
+	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U -u kernel=WHEAT
 
 $(KERNCONF): WHEAT
 	ln -s $(PWD)/$< $@
