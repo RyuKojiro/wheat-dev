@@ -14,15 +14,15 @@ module pcb() {
 
 %pcb();
 
-wheat_mount_peg_dist = 37;
-wheat_mount_hole_r = 2;
-wheat_mount_margin_xy = 2;
-wheat_mount_thickness = 1;
+mount_peg_dist = 37;
+mount_hole_r = 2;
+mount_margin_xy = 2;
+mount_thickness = 1;
 difference() {
-	translate([wheat_mount_margin_xy+wheat_mount_hole_r, wheat_mount_margin_xy+wheat_mount_hole_r, 0])
+	translate([mount_margin_xy+mount_hole_r, mount_margin_xy+mount_hole_r, 0])
 	hull() {
-		cylinder(r=wheat_mount_margin_xy+wheat_mount_hole_r);
-		translate([wheat_mount_peg_dist, 0, 0]) cylinder(r=wheat_mount_margin_xy+wheat_mount_hole_r);
+		cylinder(r=mount_margin_xy+mount_hole_r);
+		translate([mount_peg_dist, 0, 0]) cylinder(r=mount_margin_xy+mount_hole_r);
 	}
 
 	/*
@@ -33,6 +33,6 @@ difference() {
 	 */
 	translate([4,4,0]) {
 		cylinder(r=2);
-		translate ([wheat_mount_peg_dist,0,0]) cylinder(r=2);
+		translate ([mount_peg_dist,0,0]) cylinder(r=2);
 	}
 }
