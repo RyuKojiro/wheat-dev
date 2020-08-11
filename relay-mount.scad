@@ -47,7 +47,7 @@ difference() {
 		}
 	}
 
-	translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,10,mount_thickness]) {
+	translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,8+mount_margin_xy,mount_thickness]) {
 		pcb_holes();
 		pcb();
 	}
@@ -58,7 +58,7 @@ difference() {
 	 * These are the posts on the corner with the DC input. The posts are 37mm
 	 * apart, and the holes are 4mm.
 	 */
-	translate([4,4,-padding]) {
+	translate([mount_margin_xy+mount_hole_r,mount_margin_xy+mount_hole_r,-padding]) {
 		cylinder(r=2, h=mount_thickness+(padding*2));
 		translate ([mount_peg_dist,0,0]) cylinder(r=2, h=mount_thickness+(padding*2));
 	}
