@@ -1,19 +1,25 @@
 $fn = 60;
 padding = .1;
 
-module pcb() {
-	translate([3, 10, 0])
-	difference() {
-		//color("Blue")
-		cube([40, 50, 1.5]);
-		translate([2.5,2.5,-padding]) {
-			cylinder(r=1.5, h=2);
-			translate([35,0,0]) cylinder(r=1.5, h=2);
-		}
+pcb_hole_dist = 35;
+pcb_hole_r = 1.5;
+pcb_w = 40;
+module pcb_holes() {
+	translate([2.5,2.5,-padding]) {
+		cylinder(r=pcb_hole_r, h=2);
+		translate([pcb_hole_dist,0,0]) cylinder(r=pcb_hole_r, h=2);
 	}
 }
 
-%pcb();
+module pcb() {
+	difference() {
+		//color("Blue")
+		cube([pcb_w, 50, 1.5]);
+		pcb_holes();
+	}
+}
+
+%translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,10,mount_thickness]) pcb();
 
 mount_peg_dist = 37;
 mount_hole_r = 2;
@@ -22,9 +28,18 @@ mount_thickness = 1;
 difference() {
 	translate([mount_margin_xy+mount_hole_r, mount_margin_xy+mount_hole_r, 0])
 	hull() {
+		// Mounting Side
 		cylinder(r=mount_margin_xy+mount_hole_r);
 		translate([mount_peg_dist, 0, 0]) cylinder(r=mount_margin_xy+mount_hole_r);
+
+		// PCB side
+		translate([1,10-pcb_hole_r,0]) {
+			cylinder(r=mount_margin_xy+pcb_hole_r);
+			translate([pcb_hole_dist, 0, 0]) cylinder(r=mount_margin_xy+pcb_hole_r);
+		}
 	}
+
+	translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,10,0]) pcb_holes();
 
 	/*
 	 * Wheat mounting posts
