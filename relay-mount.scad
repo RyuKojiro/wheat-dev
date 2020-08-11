@@ -5,41 +5,52 @@ pcb_hole_dist = 35;
 pcb_hole_r = 1.5;
 pcb_w = 40;
 module pcb_holes() {
-	translate([2.5,2.5,-padding]) {
-		cylinder(r=pcb_hole_r, h=2);
-		translate([pcb_hole_dist,0,0]) cylinder(r=pcb_hole_r, h=2);
+	translate([2.5,2.5,-15]) {
+		cylinder(r=pcb_hole_r, h=20);
+		translate([pcb_hole_dist,0,0]) cylinder(r=pcb_hole_r, h=20);
 	}
 }
 
+pcb_thickness = 1.5;
 module pcb() {
 	difference() {
-		//color("Blue")
-		cube([pcb_w, 50, 1.5]);
-		pcb_holes();
+		cube([pcb_w, 50, pcb_thickness]);
+		//pcb_holes();
 	}
 }
 
-%translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,10,mount_thickness]) pcb();
+//%translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,10,mount_thickness]) pcb();
 
 mount_peg_dist = 37;
 mount_hole_r = 2;
 mount_margin_xy = 2;
 mount_thickness = 1;
 difference() {
-	translate([mount_margin_xy+mount_hole_r, mount_margin_xy+mount_hole_r, 0])
-	hull() {
-		// Mounting Side
-		cylinder(r=mount_margin_xy+mount_hole_r);
-		translate([mount_peg_dist, 0, 0]) cylinder(r=mount_margin_xy+mount_hole_r);
+	translate([mount_margin_xy+mount_hole_r, mount_margin_xy+mount_hole_r, 0]) {
+		hull() {
+			// Mounting Side
+			cylinder(r=mount_margin_xy+mount_hole_r);
+			translate([mount_peg_dist, 0, 0]) cylinder(r=mount_margin_xy+mount_hole_r);
 
-		// PCB side
+			// PCB side
+			translate([1,10-pcb_hole_r,0]) {
+				cylinder(r=mount_margin_xy+pcb_hole_r);
+				translate([pcb_hole_dist, 0, 0]) cylinder(r=mount_margin_xy+pcb_hole_r);
+			}
+		}
+
+		pcb_side_thickness = (mount_thickness*2)+pcb_thickness;
 		translate([1,10-pcb_hole_r,0]) {
-			cylinder(r=mount_margin_xy+pcb_hole_r);
-			translate([pcb_hole_dist, 0, 0]) cylinder(r=mount_margin_xy+pcb_hole_r);
+			cylinder(r=mount_margin_xy+pcb_hole_r, h=pcb_side_thickness);
+			translate([pcb_hole_dist, 0, 0]) cylinder(r=mount_margin_xy+pcb_hole_r, h=pcb_side_thickness);
+			//translate([(pcb_w/2)-mount_margin_xy,1-10,0]) cylinder(r=mount_margin_xy+pcb_hole_r, h=mount_thickness);
 		}
 	}
 
-	translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,10,0]) pcb_holes();
+	translate([(mount_peg_dist+((mount_margin_xy+mount_hole_r)*2)-pcb_w)/2,10,mount_thickness]) {
+		pcb_holes();
+		pcb();
+	}
 
 	/*
 	 * Wheat mounting posts
