@@ -23,7 +23,7 @@ module pcb() {
 
 mount_peg_dist = 37;
 mount_hole_r = 2;
-mount_margin_xy = 2;
+mount_margin_xy = 3;
 mount_thickness = 1;
 difference() {
 	translate([mount_margin_xy+mount_hole_r, mount_margin_xy+mount_hole_r, 0]) {
