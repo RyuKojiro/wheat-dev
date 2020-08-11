@@ -19,11 +19,11 @@ wheat_mount_hole_r = 2;
 wheat_mount_margin_xy = 2;
 wheat_mount_thickness = 1;
 difference() {
-	cube([
-		((wheat_mount_margin_xy+wheat_mount_hole_r)*2) + wheat_mount_peg_dist, 
-		((wheat_mount_margin_xy+wheat_mount_hole_r)*2),
-		wheat_mount_thickness
-	]);
+	translate([wheat_mount_margin_xy+wheat_mount_hole_r, wheat_mount_margin_xy+wheat_mount_hole_r, 0])
+	hull() {
+		cylinder(r=wheat_mount_margin_xy+wheat_mount_hole_r);
+		translate([wheat_mount_peg_dist, 0, 0]) cylinder(r=wheat_mount_margin_xy+wheat_mount_hole_r);
+	}
 
 	/*
 	 * Wheat mounting posts
