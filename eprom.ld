@@ -4,8 +4,8 @@ OUTPUT_FORMAT(binary)
 
 MEMORY
 {
-	ROM (rx) : ORIGIN = 0, LENGTH = 2M
-	RAM (wx) : org = 0x08000000, len = 2M
+	rom (rx) : ORIGIN = 0, LENGTH = 2M
+	ram (wx) : org = 0x08000000, len = 2M
 }
 
 SECTIONS
@@ -14,19 +14,20 @@ SECTIONS
 	.text : {
 		_TEXT_START_ = .;
 		*(.text.startup);
-		*(.text);
+		*(.text)
 		_TEXT_END_ = .;
-	}
+	} >ram
 
 	.data : {
 		_DATA_START_ = .;
-		*(.data);
+		*(.data)
 		_DATA_END_ = .;
-	}
+	} >ram
 
 	.bss : {
 		_BSS_START_ = .;
-		*(.bss);
+		*(.bss)
 		_BSS_END_ = .;
-	}
+	} >ram
 }
+
