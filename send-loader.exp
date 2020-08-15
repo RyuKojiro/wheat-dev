@@ -1,0 +1,73 @@
+#!/usr/bin/expect
+
+log_user 0
+
+set port /dev/tty.usbserial-wheat
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set file [lindex $argv 0]
+
+proc ledDisplayPrint {string} {
+	expect ">" {
+		send "m BA202070\r";
+	}
+
+	expect "BA202070" {
+		for {set i 0} {$i < 8} {incr i} {
+			sleep .01
+			send [format %4.4X [scan [string index $string $i] %c]]
+			send "\rFF\r"
+		}
+		send ".\r"
+	}
+}
+
+proc sendFile {filename} {
+	source vars.exp
+
+	scan $bootloader_addr %x offset
+	set addr 0
+	set len [file size $filename]
+	set start [clock milliseconds]
+	expect ">" {
+		send "m $bootloader_addr\r";
+	}
+
+	set fp [open $filename r]
+	chan configure $fp -translation binary
+	while {$addr < $len} {
+		expect [format %08X [expr $addr + $offset]] {
+			send [format %02X [scan [read $fp 1] %c]]
+			send "\r"
+		}
+		incr addr
+
+		set now [clock milliseconds]
+		set percent [expr 100 * $addr / $len]
+		set rate [format %.2f [expr $addr / (($now - $start) / 1000.0)]]
+		send_user "$addr/$len bytes - $rate bytes/sec - $percent%\r"
+	}
+	close $fp
+	send ".\r"
+	send_user "\n"
+}
+
+send_user "Waiting for remote side…\n"
+send "\r"
+
+ledDisplayPrint "Loading "
+send_user "Sending $file…\n"
+sendFile $file
+ledDisplayPrint "        "
+
+send_user "Running program…\n"
+expect ">" {
+	send "g $bootloader_addr\r"
+}
+
+# Ensure the entire send got through
+sleep 1
+
+send_user "Bootloader waiting, run send-kernel.exp.\n"
+#interact

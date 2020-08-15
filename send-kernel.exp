@@ -1,0 +1,66 @@
+#!/usr/bin/expect
+
+log_user 0
+
+set port /dev/tty.usbserial-AL020VX7
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set file [lindex $argv 0]
+
+proc formatMinsAndSecs {totalSeconds} {
+	set m [expr $totalSeconds / 60]
+	set s [format "%02d" [expr $totalSeconds % 60]]
+	return "$m:$s"
+}
+
+proc sendFile {filename} {
+	set chunkSize 100
+	set offset 0x08000000
+	set addr 0
+	set len [file size $filename]
+	expect "Enter kernel size in bytes: " {
+		send "$len\r";
+	}
+
+	set statistics [open "send_statistics.txt" "w"]
+
+	set start [clock milliseconds]
+	set fp [open $filename r]
+	chan configure $fp -translation binary
+	while {$addr < $len} {
+		expect "." {
+			send -- [read $fp $chunkSize]
+			incr addr $chunkSize
+
+			set now [clock milliseconds]
+			set percent [expr 100 * $addr / $len]
+			set rate [format %.2f [expr $addr / (($now - $start) / 1000.0)]]
+			set hex [format %08X [expr $offset + $addr]]
+			set bytesRemaining [expr $len - $addr]
+			set timeRemaining [formatMinsAndSecs [expr int($bytesRemaining / $rate)]]
+			send_user "$hex - $addr/$len bytes - $rate bytes/sec - $percent% - $timeRemaining remaining\r"
+			puts $statistics "$now\t$addr\t$rate"
+		}
+	}
+	close $fp
+	close $statistics
+	set now [clock milliseconds]
+	set duration [formatMinsAndSecs [expr ($now - $start) / 1000]]
+	send_user "Done sending kernel in $duration\n"
+}
+
+send_user "Waiting for remote side…\n"
+send "\r"
+
+while {1} {
+	expect "Choose an Option: " {
+		send "1"
+		send_user "Sending $file…\n"
+		sendFile $file
+		interact
+	} ">" {
+		send "g 08000000\r"
+	}
+}
+

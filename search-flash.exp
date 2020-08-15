@@ -1,0 +1,23 @@
+#!/usr/bin/expect
+
+log_user 1
+
+set port /dev/tty.usbserial-AL020VX7
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set file [lindex $argv 0]
+
+send_user "Waiting for remote side…\n"
+send "\r"
+
+send_user "Searching…\n"
+for {set i 0} {$i < 256} {incr i} {
+	expect "\n>" {
+		set addr [format "%02X000470" $i]
+		send "d $addr\r"
+	}
+}
+
+send_user "Done!"
+#interact
