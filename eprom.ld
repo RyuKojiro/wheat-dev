@@ -13,6 +13,7 @@ SECTIONS
 	_GLOBAL_OFFSET_TABLE_ = .;
 	.text : {
 		_TEXT_START_ = .;
+		*(.text.startup);
 		*(.text)
 		_TEXT_END_ = .;
 	} >ram
