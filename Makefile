@@ -15,6 +15,10 @@ KERNCONF=$(TOOLSRC)/sys/arch/evbsh3/conf/WHEAT
 KERNEL=  $(TOOLSRC)/sys/arch/evbsh3/compile/obj/WHEAT/netbsd
 LOADEROBJS= loader.o serial.o mmc.o
 
+####################
+#### Boot Loader ###
+####################
+
 flash-loader: loader.srec
 	./relay-bootrom.sh
 	./relay-resetcpu.sh
@@ -30,6 +34,10 @@ loader.srec: $(LOADEROBJS)
 loader.bin: $(LOADEROBJS)
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $(LOADEROBJS)
 
+####################
+###### Kernel ######
+####################
+
 netbsd.srec: $(KERNEL)
 	$(OBJCOPY) -O srec $< $@
 
@@ -38,6 +46,10 @@ $(KERNEL): $(CC) $(KERNCONF)
 
 $(KERNCONF): WHEAT
 	ln -s $(PWD)/$< $@
+
+####################
+##### Bringup ######
+####################
 
 # This announces the program counter from flash
 anac-flash: anac.srec
@@ -77,6 +89,10 @@ pic: pic.bin
 	./relay-resetcpu.sh
 	expect run.exp $<
 
+####################
+### Suffix Rules ###
+####################
+
 .o.srec:
 	$(OBJCOPY) -O srec $< $@
 
@@ -85,6 +101,10 @@ pic: pic.bin
 
 .s.o: $(CC)
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+####################
+###### Tools #######
+####################
 
 $(TOOLDIR)/bin/shle--netbsdelf-gcc: $(TOOLSRC)/obj
 	echo "No tools..."
