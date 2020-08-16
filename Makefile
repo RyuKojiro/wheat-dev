@@ -20,16 +20,10 @@ LOADEROBJS= loader.o serial.o mmc.o
 ####################
 
 flash-loader: loader.srec
-	./relay-bootrom.sh
-	./relay-resetcpu.sh
-	expect flash-loader.exp $<
-	./relay-bootflash.sh
-	./relay-resetcpu.sh
+	$(MAKE) flash SREC=$<
 
 ram-loader: loader.bin
-	./relay-bootrom.sh
-	./relay-resetcpu.sh
-	expect run.exp $<
+	$(MAKE) ram BIN=$<
 
 # This is meant for loading into flash
 loader.srec: $(LOADEROBJS)
@@ -58,38 +52,40 @@ $(KERNCONF): WHEAT
 
 # This announces the program counter from flash
 anac-flash: anac.srec
+	$(MAKE) flash SREC=$<
+
+# This assembly announces the program counter via the LED display
+anac: anac.bin
+	$(MAKE) ram BIN=$<
+
+# Same as counter, but implemented in C
+ccounter: ccounter.bin
+	$(MAKE) ram BIN=$<
+
+# This is a very rudimentary C program, just to test the basics
+simple: simple.bin
+	$(MAKE) ram BIN=$<
+
+# This is a very simple LED counter implemented in assembly
+counter: counter.bin
+	$(MAKE) ram BIN=$<
+
+# This assembly promises to run only position independent code
+pic: pic.bin
+	$(MAKE) ram BIN=$<
+
+####################
+### Code Loading ###
+####################
+
+flash: $(SREC)
 	./relay-bootrom.sh
 	./relay-resetcpu.sh
 	expect flash.exp $<
 	./relay-bootflash.sh
 	./relay-resetcpu.sh
 
-# This assembly announces the program counter via the LED display
-anac: anac.bin
-	./relay-bootrom.sh
-	./relay-resetcpu.sh
-	expect run.exp $<
-
-# Same as counter, but implemented in C
-ccounter: ccounter.bin
-	./relay-bootrom.sh
-	./relay-resetcpu.sh
-	expect run.exp $<
-
-# This is a very rudimentary C program, just to test the basics
-simple: simple.bin
-	./relay-bootrom.sh
-	./relay-resetcpu.sh
-	expect run.exp $<
-
-# This is a very simple LED counter implemented in assembly
-counter: counter.bin
-	./relay-bootrom.sh
-	./relay-resetcpu.sh
-	expect run.exp $<
-
-# This assembly promises to run only position independent code
-pic: pic.bin
+ram: $(BIN)
 	./relay-bootrom.sh
 	./relay-resetcpu.sh
 	expect run.exp $<
