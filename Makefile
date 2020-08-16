@@ -26,6 +26,11 @@ flash-loader: loader.srec
 	./relay-bootflash.sh
 	./relay-resetcpu.sh
 
+ram-loader: loader.bin
+	./relay-bootrom.sh
+	./relay-resetcpu.sh
+	expect run.exp $<
+
 # This is meant for loading into flash
 loader.srec: $(LOADEROBJS)
 	$(LD) $(LDFLAGS) -T flash.ld -o $@ $(LOADEROBJS)
