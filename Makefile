@@ -8,7 +8,7 @@ CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 INCLUDE= -I$(TOOLSRC)/sys/ -I$(TOOLSRC)/sys/arch/evbsh3/compile/WHEAT/ -I$(TOOLSRC)/sys/arch/sh3/include -I$(TOOLSRC)/include/ -I$(TOOLSRC)/obj/destdir.evbsh3/usr/include/ -I.
-CFLAGS=  -Os $(INCLUDE)
+CFLAGS=  -Os $(INCLUDE) -DSH4A
 ASFLAGS= --little --isa=sh4a
 OCFLAGS= -O binary --only-section=.text
 KERNCONF=$(TOOLSRC)/sys/arch/evbsh3/conf/WHEAT
