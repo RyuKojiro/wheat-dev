@@ -19,10 +19,10 @@ LOADEROBJS= loader.o serial.o mmc.o
 #### Boot Loader ###
 ####################
 
-flash-loader: loader.srec
+loader-flash: loader.srec
 	$(MAKE) flash SREC=$<
 
-ram-loader: loader.bin
+loader: loader.bin
 	$(MAKE) ram BIN=$<
 
 # This is meant for loading into flash
