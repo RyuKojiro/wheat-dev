@@ -114,6 +114,7 @@ $(TOOLSRC)/obj:
 	export CVSROOT="anoncvs@anoncvs.NetBSD.org:/cvsroot"
 	export CVS_RSH="ssh"
 	cvs checkout -A -P src
+	cd $(TOOLSRC) && patch -p0 < ../netbsd.patch
 	mkdir $(TOOLSRC)/obj
 
 clean:
