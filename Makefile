@@ -15,6 +15,13 @@ KERNCONF=$(TOOLSRC)/sys/arch/evbsh3/conf/WHEAT
 KERNEL=  $(TOOLSRC)/sys/arch/evbsh3/compile/obj/WHEAT/netbsd
 LOADEROBJS= loader.o serial.o mmc.o
 
+flash-loader: loader.srec
+	./relay-bootrom.sh
+	./relay-resetcpu.sh
+	expect flash-loader.exp $<
+	./relay-bootflash.sh
+	./relay-resetcpu.sh
+
 # This is meant for loading into flash
 loader.srec: $(LOADEROBJS)
 	$(LD) $(LDFLAGS) -T flash.ld -o $@ $(LOADEROBJS)
