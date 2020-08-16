@@ -99,7 +99,7 @@ pic: pic.bin
 ####################
 
 .o.srec:
-	$(OBJCOPY) -O srec $< $@
+	$(LD) $(LDFLAGS) -T flash.ld -o $@ $<
 
 .o.bin:
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
