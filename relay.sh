@@ -1,1 +1,1 @@
-RELAYDEV=/dev/cu.usbserial-11210
+RELAYDEV=/dev/cu.usbserial-1210
