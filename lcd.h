@@ -1,1 +1,1 @@
-volatile char *lcdStorage = (char *)0xBA202070;
+static volatile char *lcdStorage = (char *)0xBA202070;
