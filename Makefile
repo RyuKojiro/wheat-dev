@@ -62,6 +62,9 @@ anac: anac.bin
 ccounter: ccounter.bin
 	$(MAKE) ram BIN=$<
 
+simple-flash: simple.srec
+	$(MAKE) flash SREC=$<
+
 # This is a very rudimentary C program, just to test the basics
 simple: simple.bin
 	$(MAKE) ram BIN=$<
