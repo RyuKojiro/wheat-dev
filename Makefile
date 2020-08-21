@@ -25,11 +25,6 @@ loader-flash: loader.srec
 loader: loader.bin
 	$(MAKE) ram BIN=$<
 
-# This is meant for loading into flash
-loader.srec: $(LOADEROBJS)
-	$(LD) $(LDFLAGS) -T flash.ld -o $@ $(LOADEROBJS)
-
-# This is meant for loading into RAM
 loader.bin: $(LOADEROBJS)
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $(LOADEROBJS)
 
@@ -97,8 +92,8 @@ ram: $(BIN)
 ### Suffix Rules ###
 ####################
 
-.o.srec:
-	$(LD) $(LDFLAGS) -T flash.ld -o $@ $<
+.bin.srec:
+	$(OBJCOPY) -I binary -O srec $< $@
 
 .o.bin:
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
