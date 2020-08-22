@@ -1,9 +1,11 @@
 #include <sys/stdbool.h>
 #include <sys/reboot.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "serial.h"
 #include "loader.h"
+#include "lcd.h"
 
 #define LINE_LEN   20
 #define CHUNK_SIZE 100
@@ -52,6 +54,16 @@ static void printhex(char byte) {
 	serial_putchar(nibbletohex(byte & 0xF));
 }
 
+static void displayAddressOnLCD(const void *ptr) {
+	char string[8];
+	size_t p = (size_t)ptr;
+	for(int i = 0; i < sizeof(p)*2; i++) {
+		string[i] = nibbletohex(p >> 28);
+		p <<= 4;
+	}
+	lcd_print(string);
+}
+
 static void *addressFromHexString(int len, const char *buf) {
 	unsigned long result = 0;
 	for(int i = 0; i < len && buf[i]; i++) {
@@ -85,6 +97,7 @@ static void loadFromSerial(void) {
 	char *zone = (char *)LOAD_ADDR;
 	//serial_putchar('.');
 	for(size_t o = 0; o < size; o++) {
+		displayAddressOnLCD(zone + o);
 		zone[o] = serial_getchar();
 
 		/*
@@ -112,6 +125,8 @@ static void showKernel(void) {
 }
 
 int main(void) {
+	lcd_print("Bootload");
+
 	serial_init();
 	serial_print("\n\r");
 	serial_print(">> NetBSD/sh3 Serial & SD Bootloader.\n\r");
