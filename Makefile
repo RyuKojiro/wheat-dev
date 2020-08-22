@@ -14,6 +14,8 @@ OCFLAGS= -O binary --only-section=.text
 KERNCONF=$(TOOLSRC)/sys/arch/evbsh3/conf/WHEAT
 KERNEL=  $(TOOLSRC)/sys/arch/evbsh3/compile/obj/WHEAT/netbsd
 LOADEROBJS= loader.o serial.o mmc.o lcd.o
+CONSOLE=/dev/tty.usbserial-wheat
+BAUD=115200
 
 ####################
 #### Boot Loader ###
@@ -116,9 +118,16 @@ $(TOOLSRC)/obj:
 	cd $(TOOLSRC) && patch -p0 < ../netbsd.patch
 	mkdir $(TOOLSRC)/obj
 
+####################
+### Other Stuff ####
+####################
+
+serial:
+	screen $(CONSOLE) $(BAUD)
+
 clean:
 	rm -f *.o *.bin *.srec $(KERNEL)
 
 .SUFFIXES: .o .bin .srec
-.PHONY: clean
+.PHONY: clean serial
 .POSIX:
