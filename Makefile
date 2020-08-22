@@ -117,7 +117,7 @@ $(TOOLSRC)/obj:
 	mkdir $(TOOLSRC)/obj
 
 clean:
-	rm -f *.o *.bin *.srec
+	rm -f *.o *.bin *.srec $(KERNEL)
 
 .SUFFIXES: .o .bin .srec
 .PHONY: clean
