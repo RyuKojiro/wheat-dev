@@ -5,7 +5,7 @@
 
 include "arch/evbsh3/conf/std.evbsh3.el" # for little endian
 include "arch/evbsh3/conf/std.kzsh401"
-makeoptions	DEFTEXTADDR="0x08000000"
+makeoptions	DEFTEXTADDR="0x08400000"
 #makeoptions DEBUG="-g"
 #options UVM_HOTPLUG
 #options 	DDB			# in-kernel debugger
@@ -28,8 +28,8 @@ options 	SH4
 options 	PCLOCK=33333300			# 33.3333MHz
 options 	IOM_ROM_BEGIN=0x00000000
 options 	IOM_ROM_SIZE=0x00200000		# 2MB
-options 	IOM_RAM_BEGIN=0x08000000
-options 	IOM_RAM_SIZE=0x04000000		# 64MB
+options 	IOM_RAM_BEGIN=0x08800000    # +4MB
+options 	IOM_RAM_SIZE=0x03C00000		# 64MB -4MB
 
 options 	BSC_BCR1_VAL   =0x8000000c
 options 	BSC_BCR2_VAL   =0xb538
