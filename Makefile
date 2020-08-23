@@ -18,6 +18,18 @@ CONSOLE=/dev/tty.usbserial-wheat
 BAUD=115200
 
 ####################
+## Kernel Sending ##
+####################
+
+netbsd: $(KERNEL) send loader
+	expect prepare.exp $(KERNEL)
+	./send -s $(CONSOLE) $(KERNEL)
+
+send: send.c
+	cc -ggdb -c -o send.o send.c
+	cc -o send send.o
+
+####################
 #### Boot Loader ###
 ####################
 
