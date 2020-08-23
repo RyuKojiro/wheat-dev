@@ -54,11 +54,10 @@ static void printhex(char byte) {
 	serial_putchar(nibbletohex(byte & 0xF));
 }
 
-static void displayAddressOnLCD(const void *ptr) {
+static void displayHexOnLCD(uint32_t p) {
 	char string[8];
-	size_t p = (size_t)ptr;
 	for(int i = 0; i < sizeof(p)*2; i++) {
-		string[i] = nibbletohex(p >> 28);
+		string[i] = nibbletohex(p >> ((sizeof(p)*8)-4));
 		p <<= 4;
 	}
 	lcd_print(string);
@@ -92,12 +91,13 @@ static void loadFromSerial(void) {
 	serial_print("Enter kernel size in bytes: ");
 	int len = serial_getline(line, LINE_LEN);
 	size_t size = lengthFromDecimalString(len, line);
+	displayHexOnLCD(size);
 
 	serial_print("Send kernel when ready.\n\r");
 	char *zone = (char *)LOAD_ADDR;
 	//serial_putchar('.');
 	for(size_t o = 0; o < size; o++) {
-		displayAddressOnLCD(zone + o);
+		displayHexOnLCD((uint32_t)(zone+o));
 		zone[o] = serial_getchar();
 
 		/*
