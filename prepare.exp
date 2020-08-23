@@ -24,7 +24,9 @@ while {1} {
 	} "Enter kernel size in bytes: " {
 		send_user "Got serial stream setup\n"
 		set size [file size $kernel]
+		send_user "Sending size: $size\n"
 		send "$size\r"
+	} "Send kernel when ready." {
 		exit
 	}
 }
