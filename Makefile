@@ -119,7 +119,7 @@ ram: $(BIN)
 ###### Tools #######
 ####################
 
-$(TOOLDIR)/bin/shle--netbsdelf-gcc: $(TOOLSRC)/obj
+$(CC): $(TOOLSRC)/obj
 	echo "No tools..."
 	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U tools
 
