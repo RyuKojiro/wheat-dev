@@ -5,7 +5,7 @@ OUTPUT_FORMAT(binary)
 MEMORY
 {
 	rom (rx) : ORIGIN = 0, LENGTH = 2M
-	ram (wx) : org = 0x08000000, len = 2M
+	ram (wx) : org = 0x08000000, len = 64M
 }
 
 SECTIONS
