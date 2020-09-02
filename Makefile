@@ -47,7 +47,7 @@ loader.elf: $(LOADEROBJS)
 ####################
 
 netbsd.bin: $(KERNEL)
-	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
+	$(OBJCOPY) -O binary $< $@
 
 netbsd.srec: $(KERNEL)
 	$(OBJCOPY) -O srec $< $@
