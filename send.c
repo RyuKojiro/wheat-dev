@@ -91,6 +91,7 @@ static void send(const int sock, const char *filename) {
 				);
 		write(sock, buf, bytesRead);
 	}
+	fprintf(stderr, "\n");
 	fclose(in);
 }
 
