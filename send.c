@@ -91,6 +91,9 @@ static void send(const int sock, const char *filename) {
 				);
 		write(sock, buf, bytesRead);
 	}
+
+	// FIXME: This is just here temporarily, since it looks like tcdrain is broken on my host OS
+	sleep(10);
 	fprintf(stderr, "\n");
 	fclose(in);
 }
