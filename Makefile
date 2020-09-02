@@ -39,7 +39,7 @@ loader-flash: loader.srec
 loader: loader.bin
 	$(MAKE) ram BIN=$<
 
-loader.bin: $(LOADEROBJS)
+loader.elf: $(LOADEROBJS)
 	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $(LOADEROBJS)
 
 ####################
@@ -109,11 +109,14 @@ ram: $(BIN)
 ### Suffix Rules ###
 ####################
 
+.o.elf:
+	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
+
 .bin.srec:
 	$(OBJCOPY) -I binary -O srec $< $@
 
-.o.bin:
-	$(LD) $(LDFLAGS) -T eprom.ld -o $@ $<
+.elf.bin:
+	$(OBJCOPY) -O binary $< $@
 
 .s.o: $(CC)
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -141,8 +144,8 @@ serial:
 	screen $(CONSOLE) $(BAUD)
 
 clean:
-	rm -f *.o *.bin *.srec $(KERNEL)
+	rm -f *.o *.bin *.srec *.elf $(KERNEL)
 
-.SUFFIXES: .o .bin .srec
+.SUFFIXES: .o .bin .srec .elf
 .PHONY: clean serial
 .POSIX:

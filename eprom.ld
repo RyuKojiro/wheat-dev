@@ -1,7 +1,5 @@
 ENTRY(main)
 
-OUTPUT_FORMAT(binary)
-
 MEMORY
 {
 	rom (rx) : ORIGIN = 0, LENGTH = 2M
