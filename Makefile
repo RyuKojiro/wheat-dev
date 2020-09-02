@@ -21,9 +21,9 @@ BAUD=115200
 ## Kernel Sending ##
 ####################
 
-netbsd: $(KERNEL) send loader
-	expect prepare.exp $(KERNEL)
-	./send -s $(CONSOLE) $(KERNEL)
+netbsd: netbsd.bin send loader
+	expect prepare.exp netbsd.bin
+	./send -s $(CONSOLE) netbsd.bin
 
 send: send.c
 	cc -ggdb -c -o send.o send.c
