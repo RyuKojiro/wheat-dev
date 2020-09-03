@@ -12,13 +12,13 @@ set kernel [lindex $argv 0]
 
 send_user "Knocking on the door\n"
 send "\r"
+expect  ">" {
+	send_user "Got prompt\n"
+	send "g $bootloader_addr\r"
+}
 
-set stage 0
 while {1} {
-	expect  ">" {
-		send_user "Got prompt\n"
-		send "g $bootloader_addr\r"
-	} "Choose an Option: " {
+	expect "Choose an Option: " {
 		send_user "Got bootloader\n"
 		send "1"
 	} "Enter kernel size in bytes: " {
