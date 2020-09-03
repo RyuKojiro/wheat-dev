@@ -1,4 +1,4 @@
 #!/usr/bin/expect
 
-set bootloader_addr 09000000
-set kernel_addr     08000000
+set bootloader_addr 08000000
+set kernel_addr     08400000
