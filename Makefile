@@ -22,6 +22,7 @@ BAUD=115200
 ####################
 
 netbsd: netbsd.bin send loader
+	./relay-resetcpu.sh
 	expect prepare.exp netbsd.bin
 	./send -s $(CONSOLE) netbsd.bin
 
