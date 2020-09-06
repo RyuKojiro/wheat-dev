@@ -9,17 +9,17 @@
 
 #define LINE_LEN   20
 #define CHUNK_SIZE 100
-#define RESET_VEC  0xA0000000
+#define RESET_VEC  ((void *)0xA0000000)
 
 #define _STRINGIFY(a) #a
 #define STRINGIFY(a) _STRINGIFY(a)
 
-static void bootKernel(void) {
-	(*(void (*)(int, void *))LOAD_ADDR)(AB_VERBOSE|AB_DEBUG, NULL);
+static void go(void *addr) {
+	(*(void (*)(void))addr)();
 }
 
 static void reboot(void) {
-	((void(*)(void))RESET_VEC)();
+	go(RESET_VEC);
 }
 
 static size_t lengthFromDecimalString(int len, const char *buf) {
@@ -72,6 +72,10 @@ static void *addressFromHexString(int len, const char *buf) {
 	return (void *)result;
 }
 
+static void bootKernel(void) {
+	go(LOAD_ADDR);
+}
+
 static void bootAddress(void) {
 	char line[LINE_LEN];
 	serial_print("Enter eight hex digit address: ");
@@ -83,7 +87,7 @@ static void bootAddress(void) {
 		printhex(((int)l >> i) & 0xFF);
 	}
 	serial_print("...\n\r");
-	(*(void (*)(int, void *))l)(AB_VERBOSE|AB_DEBUG, NULL);
+	go(l);
 }
 
 static void loadFromSerial(void) {
