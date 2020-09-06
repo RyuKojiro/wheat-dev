@@ -25,6 +25,7 @@ netbsd: netbsd.bin send loader
 	./relay-resetcpu.sh
 	expect prepare.exp netbsd.bin
 	./send -s $(CONSOLE) netbsd.bin
+	$(MAKE) serial
 
 send: send.c
 	cc -ggdb -c -o send.o send.c
@@ -54,7 +55,7 @@ netbsd.srec: $(KERNEL)
 	$(OBJCOPY) -O srec $< $@
 
 $(KERNEL): $(CC) $(KERNCONF)
-	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U -u kernel=WHEAT
+	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U kernel=WHEAT
 
 $(KERNCONF): WHEAT
 	ln -s $(PWD)/$< $@
