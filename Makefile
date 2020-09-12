@@ -3,11 +3,12 @@ OSVERS:=$(shell uname -r)
 OSARCH:=$(shell uname -m)
 TOOLSRC= src
 TOOLDIR= $(TOOLSRC)/obj/tooldir.$(OSNAME)-$(OSVERS)-$(OSARCH)
+DESTDIR= $(TOOLSRC)/obj/destdir.evbsh3
 AS=      $(TOOLDIR)/bin/shle--netbsdelf-as
 CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
-INCLUDE= -I$(TOOLSRC)/sys/ -I$(TOOLSRC)/sys/arch/evbsh3/compile/WHEAT/ -I$(TOOLSRC)/sys/arch/sh3/include -I$(TOOLSRC)/include/ -I$(TOOLSRC)/obj/destdir.evbsh3/usr/include/ -I.
+INCLUDE= -I$(TOOLSRC)/sys/ -I$(TOOLSRC)/sys/arch/evbsh3/compile/WHEAT/ -I$(TOOLSRC)/sys/arch/sh3/include -I$(TOOLSRC)/include/ -I$(DESTDIR)/usr/include/ -I.
 CFLAGS=  -Os $(INCLUDE) -DSH7780 -ggdb
 ASFLAGS= --little --isa=sh4a
 OCFLAGS= -O binary --only-section=.text
@@ -120,12 +121,18 @@ ram: $(BIN)
 .elf.bin:
 	$(OBJCOPY) -O binary $< $@
 
-.s.o: $(CC)
+.s.o: $(CC) $(DESTDIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+.c.o: $(CC) $(DESTDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 ####################
 ###### Tools #######
 ####################
+
+$(DESTDIR): $(CC)
+	./build.sh -a sh3el -m evbsh3 -j 12 -U build
 
 $(CC): $(TOOLSRC)/obj
 	echo "No tools..."
@@ -151,6 +158,6 @@ serial:
 clean:
 	rm -f *.o *.bin *.srec *.elf $(KERNEL)
 
-.SUFFIXES: .o .bin .srec .elf .s
+.SUFFIXES: .o .bin .srec .elf .s .c
 .PHONY: clean serial
 .POSIX:
