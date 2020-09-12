@@ -8,7 +8,7 @@ CC=      $(TOOLDIR)/bin/shle--netbsdelf-gcc
 LD=      $(TOOLDIR)/bin/shle--netbsdelf-ld
 OBJCOPY= $(TOOLDIR)/bin/shle--netbsdelf-objcopy
 INCLUDE= -I$(TOOLSRC)/sys/ -I$(TOOLSRC)/sys/arch/evbsh3/compile/WHEAT/ -I$(TOOLSRC)/sys/arch/sh3/include -I$(TOOLSRC)/include/ -I$(TOOLSRC)/obj/destdir.evbsh3/usr/include/ -I.
-CFLAGS=  -Os $(INCLUDE) -DSH4A -ggdb
+CFLAGS=  -Os $(INCLUDE) -DSH7780 -ggdb
 ASFLAGS= --little --isa=sh4a
 OCFLAGS= -O binary --only-section=.text
 KERNCONF=$(TOOLSRC)/sys/arch/evbsh3/conf/WHEAT
@@ -135,7 +135,10 @@ $(TOOLSRC)/obj:
 	export CVSROOT="anoncvs@anoncvs.NetBSD.org:/cvsroot"
 	export CVS_RSH="ssh"
 	cvs checkout -A -P src
-	cd $(TOOLSRC) && patch -p0 < ../netbsd.patch
+	for PATCH in netbsd-patches/* ; \
+	do \
+		patch -d $(TOOLSRC) -p0 < $$PATCH ; \
+	done
 	mkdir $(TOOLSRC)/obj
 
 ####################

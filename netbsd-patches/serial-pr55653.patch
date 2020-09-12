@@ -1,0 +1,54 @@
+Index: sys/arch/sh3/include/scifreg.h
+===================================================================
+RCS file: /cvsroot/src/sys/arch/sh3/include/scifreg.h,v
+retrieving revision 1.11
+diff -u -r1.11 scifreg.h
+--- sys/arch/sh3/include/scifreg.h	28 May 2019 08:59:34 -0000	1.11
++++ sys/arch/sh3/include/scifreg.h	11 Sep 2020 08:41:18 -0000
+@@ -36,7 +36,17 @@
+ #define SH3_SCIF0_BASE	0xa4000150
+ #define SH3_SCIF1_BASE	0xa4000140
+ 
+-#define SH4_SCIF_BASE	0xffe80000
++#ifdef SH7780
++#define SH4_SCIF0_BASE	0xffe00000
++#define SH4_SCIF1_BASE	0xffe10000
++#elif SH7450
++#define SH4_SCIF0_BASE	0xffffc000
++#define SH4_SCIF1_BASE	0xffffc100
++#define SH4_SCIF2_BASE	0xffffc200
++#define SH4_SCIF3_BASE	0xffffc300
++#else /* SH4 Default */
++#define SH4_SCIF0_BASE	0xffe80000
++#endif
+ 
+ #ifdef SH3
+ 
+@@ -76,17 +86,17 @@
+ #define SCIF_SPTR		0x20	/* seial port */
+ #define SCIF_LSR		0x24	/* line status */
+ 
+-#define	SHREG_SCSMR2  (*(volatile uint16_t *)(SH4_SCIF_BASE + SCIF_SMR))
+-#define	SHREG_SCBRR2  (*(volatile uint8_t  *)(SH4_SCIF_BASE + SCIF_BRR))
+-#define	SHREG_SCSCR2  (*(volatile uint16_t *)(SH4_SCIF_BASE + SCIF_SCR))
+-#define	SHREG_SCFTDR2 (*(volatile uint8_t  *)(SH4_SCIF_BASE + SCIF_FTDR))
+-#define	SHREG_SCSSR2  (*(volatile uint16_t *)(SH4_SCIF_BASE + SCIF_SSR))
+-#define	SHREG_SCFRDR2 (*(volatile uint8_t  *)(SH4_SCIF_BASE + SCIF_FRDR))
+-#define	SHREG_SCFCR2  (*(volatile uint16_t *)(SH4_SCIF_BASE + SCIF_FCR))
+-#define	SHREG_SCFDR2  (*(volatile uint16_t *)(SH4_SCIF_BASE + SCIF_FDR))
++#define	SHREG_SCSMR2  (*(volatile uint16_t *)(SH4_SCIF0_BASE + SCIF_SMR))
++#define	SHREG_SCBRR2  (*(volatile uint8_t  *)(SH4_SCIF0_BASE + SCIF_BRR))
++#define	SHREG_SCSCR2  (*(volatile uint16_t *)(SH4_SCIF0_BASE + SCIF_SCR))
++#define	SHREG_SCFTDR2 (*(volatile uint8_t  *)(SH4_SCIF0_BASE + SCIF_FTDR))
++#define	SHREG_SCSSR2  (*(volatile uint16_t *)(SH4_SCIF0_BASE + SCIF_SSR))
++#define	SHREG_SCFRDR2 (*(volatile uint8_t  *)(SH4_SCIF0_BASE + SCIF_FRDR))
++#define	SHREG_SCFCR2  (*(volatile uint16_t *)(SH4_SCIF0_BASE + SCIF_FCR))
++#define	SHREG_SCFDR2  (*(volatile uint16_t *)(SH4_SCIF0_BASE + SCIF_FDR))
+ 
+-#define	SHREG_SCSPTR2 (*(volatile uint16_t *)(SH4_SCIF_BASE + SCIF_SPTR))
+-#define	SHREG_SCLSR2  (*(volatile uint16_t *)(SH4_SCIF_BASE + SCIF_LSR))
++#define	SHREG_SCSPTR2 (*(volatile uint16_t *)(SH4_SCIF0_BASE + SCIF_SPTR))
++#define	SHREG_SCLSR2  (*(volatile uint16_t *)(SH4_SCIF0_BASE + SCIF_LSR))
+ 
+ /* alias */
+ #define	SHREG_SCSFDR2	SHREG_SCFTDR2
