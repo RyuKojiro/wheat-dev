@@ -151,6 +151,6 @@ serial:
 clean:
 	rm -f *.o *.bin *.srec *.elf $(KERNEL)
 
-.SUFFIXES: .o .bin .srec .elf
+.SUFFIXES: .o .bin .srec .elf .s
 .PHONY: clean serial
 .POSIX:
