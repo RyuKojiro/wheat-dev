@@ -26,7 +26,7 @@ netbsd: netbsd.bin send loader
 	./relay-resetcpu.sh
 	expect prepare.exp netbsd.bin
 	./send -s $(CONSOLE) netbsd.bin
-	$(MAKE) serial
+	expect loop.exp
 
 send: send.c
 	cc -ggdb -c -o send.o send.c

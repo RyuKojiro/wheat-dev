@@ -1,0 +1,20 @@
+#!/usr/bin/expect
+
+log_user 1
+
+source vars.exp
+
+set port /dev/tty.usbserial-wheat
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set kernel [lindex $argv 0]
+
+send_user "Knocking on the door\n"
+send "\r"
+while {1} {
+	expect  ">" {
+		send_user "Got prompt\n"
+		send "g $kernel_addr\r"
+	}
+}
