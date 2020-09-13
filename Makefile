@@ -22,7 +22,8 @@ BAUD=115200
 ## Kernel Sending ##
 ####################
 
-netbsd: netbsd.bin send loader
+netbsd: netbsd.bin send
+	./is-loader-up.sh || $(MAKE) loader
 	./relay-resetcpu.sh
 	expect prepare.exp netbsd.bin
 	./send -s $(CONSOLE) netbsd.bin

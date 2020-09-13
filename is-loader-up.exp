@@ -1,0 +1,32 @@
+#!/usr/bin/expect
+
+log_user 0
+
+source vars.exp
+
+set port /dev/tty.usbserial-wheat
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set kernel [lindex $argv 0]
+
+send_user "Checking if the bootloader is already present\n"
+send "\r"
+while {1} {
+	expect  ">" {
+		send "g $bootloader_addr\r"
+		while {1} {
+			expect "Choose an Option: " {
+				send_user "Bootloader present\n"
+				exit 0
+			} "SH-MobileR2 monitor" {
+				send_user "Bootloader NOT present\n"
+				exit 1
+			}
+		}
+	} "Choose an Option: " {
+		send_user "Bootloader present\n"
+		exit 0
+	}
+}
+
