@@ -56,8 +56,8 @@ netbsd.bin: $(KERNEL)
 netbsd.srec: $(KERNEL)
 	$(OBJCOPY) -O srec $< $@
 
-$(KERNEL): $(CC) $(KERNCONF)
-	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U kernel=WHEAT
+$(KERNEL): $(CC) $(KERNCONF) EXTERNAL_DEPENDENCIES
+	cd $(TOOLSRC) && ./build.sh -a sh3el -m evbsh3 -j 12 -U -u kernel=WHEAT
 
 $(KERNCONF): WHEAT
 	ln -s $(PWD)/$< $@
@@ -158,6 +158,12 @@ serial:
 
 clean:
 	rm -f *.o *.bin *.srec *.elf $(KERNEL)
+
+# This is a fake rule to keep an otherwise reasonable target from being
+# seen as up-to-date. The primary intent here is to pass the build to
+# another build system that has it's own dependency management, and is not
+# expected to waste much time if there's not actually anything to rebuild.
+EXTERNAL_DEPENDENCIES:
 
 .SUFFIXES: .o .bin .srec .elf .s .c
 .PHONY: clean serial
