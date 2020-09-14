@@ -13,7 +13,9 @@ set kernel [lindex $argv 0]
 send_user "Knocking on the door\n"
 send "\r"
 while {1} {
-	expect  ">" {
+	expect "Please press any key to reboot." {
+		exit
+	} ">" {
 		send_user "Got prompt\n"
 		send "g $kernel_addr\r"
 	}
