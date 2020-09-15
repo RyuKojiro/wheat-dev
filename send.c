@@ -93,7 +93,7 @@ static void send(const int sock, const char *filename) {
 	}
 
 	tcdrain(sock);
-	sleep(5); // FIXME: This is just here temporarily, since it looks like my OS' tcdrain is broken
+	sleep(3); // FIXME: This is just here temporarily, since it looks like my OS' tcdrain is broken
 	fprintf(stderr, "\n");
 	fclose(in);
 }
