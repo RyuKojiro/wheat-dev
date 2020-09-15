@@ -10,13 +10,11 @@ set spawned [spawn -open [open $port w+]]
 exec stty -f $port $baud raw -clocal -echo
 set kernel [lindex $argv 0]
 
-send_user "Knocking on the door\n"
 send "\r"
 while {1} {
 	expect "Please press any key to reboot." {
 		exit
 	} ">" {
-		send_user "Got prompt\n"
 		send "g $kernel_addr\r"
 	}
 }
