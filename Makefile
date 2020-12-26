@@ -50,6 +50,9 @@ loader.elf: $(LOADEROBJS)
 ###### Kernel ######
 ####################
 
+netbsd.bin.gz: netbsd.bin
+	gzip -cv9 $< > $@
+
 netbsd.bin: $(KERNEL)
 	$(OBJCOPY) -O binary $< $@
 
