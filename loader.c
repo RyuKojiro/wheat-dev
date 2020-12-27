@@ -73,6 +73,7 @@ static void *addressFromHexString(int len, const char *buf) {
 }
 
 static void bootKernel(void) {
+	serial_print("Commencing boot...\n\r");
 	go(LOAD_ADDR);
 }
 
@@ -115,7 +116,6 @@ static void loadFromSerialToAddress(void *addr) {
 
 static void loadFromSerial(void) {
 	loadFromSerialToAddress(LOAD_ADDR);
-	serial_print("Commencing boot.\n\r");
 	bootKernel();
 }
 
