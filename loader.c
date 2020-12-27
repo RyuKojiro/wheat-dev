@@ -90,7 +90,7 @@ static void bootAddress(void) {
 	go(l);
 }
 
-static void loadFromSerial(void) {
+static void loadFromSerialToAddress(void *addr) {
 	char line[LINE_LEN];
 	serial_print("Enter kernel size in bytes: ");
 	int len = serial_getline(line, LINE_LEN);
@@ -98,7 +98,7 @@ static void loadFromSerial(void) {
 	displayHexOnLCD(size);
 
 	serial_print("Send kernel when ready.\n\r");
-	char *zone = (char *)LOAD_ADDR;
+	char *zone = (char *)addr;
 	//serial_putchar('.');
 	for(size_t o = 0; o < size; o++) {
 		displayHexOnLCD((uint32_t)(zone+o));
@@ -110,7 +110,12 @@ static void loadFromSerial(void) {
 		}
 		*/
 	}
-	serial_print("\n\rDone loading. Commencing boot.\n\r");
+	serial_print("\n\rDone loading.\n\r");
+}
+
+static void loadFromSerial(void) {
+	loadFromSerialToAddress(LOAD_ADDR);
+	serial_print("Commencing boot.\n\r");
 	bootKernel();
 }
 
