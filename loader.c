@@ -133,6 +133,16 @@ static void showKernel(void) {
 	}
 }
 
+static const void (*options[])(void) = {
+	NULL,
+	loadFromSerial,
+	loadFromSD,
+	reboot,
+	bootKernel,
+	bootAddress,
+	showKernel,
+};
+
 int main(void) {
 	lcd_print("Bootload");
 
@@ -159,27 +169,12 @@ int main(void) {
 		serial_print("\n\r");
 
 		/* Act on the selection */
-		switch(selection) {
-			case '1': {
-				loadFromSerial();
-			} break;
-			case '2': {
-				loadFromSD();
-			} break;
-			case '3': {
-				reboot();
-			} break;
-			case '4': {
-				bootKernel();
-			} break;
-			case '5': {
-				bootAddress();
-			} break;
-			case '6': {
-				showKernel();
-			} break;
-			default:
-				serial_print("Invalid option.\n\r");
+		selection -= '0';
+		serial_print("\n\r");
+		if (selection > 0 && selection < sizeof(options)/sizeof(*options)) {
+			options[selection]();
+		} else {
+			serial_print("Invalid option.\n\r");
 		}
 	}
 }
