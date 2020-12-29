@@ -1,0 +1,64 @@
+#!/usr/bin/expect
+
+log_user 0
+
+set port /dev/tty.usbserial-wheat
+set baud 115200
+set spawned [spawn -open [open $port w+]]
+exec stty -f $port $baud raw -clocal -echo
+set file [lindex $argv 0]
+
+proc ledDisplayPrint {string} {
+	expect ">" {
+		send "m BA202070\r";
+	}
+
+	expect "BA202070" {
+		for {set i 0} {$i < 8} {incr i} {
+			sleep .01
+			send [format %4.4X [scan [string index $string $i] %c]]
+			send "\rFF\r"
+		}
+		send ".\r"
+	}
+}
+
+proc dumpToFile {start stop filename} {
+	set addr $start
+	set epoch [clock milliseconds]
+	expect ">" {
+		send [format "d %08X\r" $start];
+	}
+
+	set fp [open $filename w]
+	chan configure $fp -translation binary
+	set more 1
+	set end [format %08X $stop]
+	while {$more} {
+		expect  $end {
+			set more 0
+		} -re ">" {
+			send "\r"
+			puts $fp $expect_out(buffer)
+			incr addr 0x100
+		}
+		set now [clock milliseconds]
+		set len [expr $stop - $start]
+		set sofar [expr $addr - $start]
+		set rate [format %.2f [expr $sofar / (($now - $epoch) / 1000.0)]]
+		set percent [expr 100 * $sofar / $len]
+		send_user "$sofar/$len bytes - $rate bytes/sec - $percent%\r"
+	}
+	close $fp
+	send ".\r"
+	send_user "\n"
+}
+
+send_user "Waiting for remote side…\n"
+send "\r"
+
+ledDisplayPrint "RAM Dump"
+send_user "Dumping to $file…\n"
+# 64 MB Change to 0c0
+dumpToFile 0x08000000 0x08010000 $file
+ledDisplayPrint "Complete"
