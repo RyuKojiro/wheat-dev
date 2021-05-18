@@ -70,6 +70,12 @@ $(KERNCONF): WHEAT
 ##### Bringup ######
 ####################
 
+dump.bin: dump.txt
+	cat $< | grep -v ">" | xxd -r | tail -c 134217728
+
+dump.txt:
+	expect dump.exp $@
+
 # This announces the program counter from flash
 anac-flash: anac.srec
 	$(MAKE) flash SREC=$<
