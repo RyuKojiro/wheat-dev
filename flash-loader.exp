@@ -4,8 +4,6 @@ source vars.exp
 
 log_user 0
 
-set port /dev/tty.usbserial-wheat
-set baud 115200
 set spawned [spawn -open [open $port w+]]
 exec stty -f $port $baud raw -clocal -echo
 set file [lindex $argv 0]

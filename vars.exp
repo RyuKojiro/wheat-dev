@@ -2,3 +2,6 @@
 
 set bootloader_addr 08000000
 set kernel_addr     08400000
+
+set port /dev/tty.usbserial-wheat
+set baud 115200
