@@ -1,17 +1,8 @@
-RELAYDEV="NOT FOUND"
-if [ -e "/dev/cu.usbserial-11210" ]
-then
-	RELAYDEV="/dev/cu.usbserial-11210"
-fi
+RELAYDEV=`find /dev -name 'cu.usbserial-*210'`
 
-if [ -e "/dev/cu.usbserial-1210" ]
+if [ $RELAYDEV == "" ]
 then
-	RELAYDEV="/dev/cu.usbserial-1210"
-fi
-
-if [ -e "/dev/cu.usbserial-2210" ]
-then
-	RELAYDEV="/dev/cu.usbserial-2210"
+	RELAYDEV="NOT FOUND"
 fi
 
 echo "Relay device is $RELAYDEV"
