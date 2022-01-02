@@ -1,4 +1,4 @@
-RELAYDEV=`find /dev -name 'cu.usbserial-*210'`
+RELAYDEV=`find /dev -name 'cu.usbserial-*210' 2> /dev/null`
 
 if [ $RELAYDEV == "" ]
 then
